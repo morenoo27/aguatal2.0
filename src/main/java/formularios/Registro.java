@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
+import javax.swing.JRadioButton;
 
 public class Registro extends JFrame implements ActionListener {
 
@@ -43,6 +44,7 @@ public class Registro extends JFrame implements ActionListener {
 	private JTextField txtEmail;
 	private JTextField campEmail;
 	private JButton registrarse;
+	private JTextField txtSeleccionaUnPlan;
 
 	/**
 	 * Launch the application.
@@ -80,7 +82,7 @@ public class Registro extends JFrame implements ActionListener {
 	private void initComponents() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 476, 434);
+		setBounds(100, 100, 476, 579);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -205,10 +207,30 @@ public class Registro extends JFrame implements ActionListener {
 		contentPane.add(campEmail);
 		
 		registrarse = new JButton("Registrarse");
-		registrarse.setBounds(160, 349, 107, 23);
+		registrarse.setBounds(160, 506, 107, 23);
 		registrarse.setEnabled(false);
 		registrarse.addActionListener(this);
 		contentPane.add(registrarse);
+		
+		JRadioButton precio1 = new JRadioButton("Plan basico");
+		precio1.setBounds(28, 392, 109, 23);
+		contentPane.add(precio1);
+		
+		JRadioButton precio2 = new JRadioButton("Plan premium");
+		precio2.setBounds(160, 392, 109, 23);
+		contentPane.add(precio2);
+		
+		JRadioButton precio3 = new JRadioButton("Plan Nova");
+		precio3.setBounds(294, 392, 109, 23);
+		contentPane.add(precio3);
+		
+		txtSeleccionaUnPlan = new JTextField();
+		txtSeleccionaUnPlan.setText("      SELECCIONA UN PLAN");
+		txtSeleccionaUnPlan.setEditable(false);
+		txtSeleccionaUnPlan.setColumns(10);
+		txtSeleccionaUnPlan.setBackground(Color.WHITE);
+		txtSeleccionaUnPlan.setBounds(140, 365, 143, 20);
+		contentPane.add(txtSeleccionaUnPlan);
 
 	}
 
@@ -283,5 +305,4 @@ public class Registro extends JFrame implements ActionListener {
 			return false;
 		}
 	}
-
 }
