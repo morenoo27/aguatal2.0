@@ -1,13 +1,11 @@
 package formularios;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
 import controladores.ControladorUsuario;
@@ -34,7 +32,6 @@ public class Registro extends JFrame implements ActionListener {
 	private JTextField textDireccion;
 	private JButton comprobar;
 	private JButton ayudaUsuario;
-	private JButton ayudaPass;
 	private JTextField campUser;
 	private JTextField campPass;
 	private JTextField campNombre;
@@ -205,25 +202,25 @@ public class Registro extends JFrame implements ActionListener {
 		campEmail.setBackground(Color.LIGHT_GRAY);
 		campEmail.setBounds(160, 297, 107, 20);
 		contentPane.add(campEmail);
-		
+
 		registrarse = new JButton("Registrarse");
 		registrarse.setBounds(160, 506, 107, 23);
 		registrarse.setEnabled(false);
 		registrarse.addActionListener(this);
 		contentPane.add(registrarse);
-		
+
 		JRadioButton precio1 = new JRadioButton("Plan basico");
 		precio1.setBounds(28, 392, 109, 23);
 		contentPane.add(precio1);
-		
+
 		JRadioButton precio2 = new JRadioButton("Plan premium");
 		precio2.setBounds(160, 392, 109, 23);
 		contentPane.add(precio2);
-		
+
 		JRadioButton precio3 = new JRadioButton("Plan Nova");
 		precio3.setBounds(294, 392, 109, 23);
 		contentPane.add(precio3);
-		
+
 		txtSeleccionaUnPlan = new JTextField();
 		txtSeleccionaUnPlan.setText("      SELECCIONA UN PLAN");
 		txtSeleccionaUnPlan.setEditable(false);
@@ -245,63 +242,109 @@ public class Registro extends JFrame implements ActionListener {
 
 			JOptionPane.showMessageDialog(null,
 					"El usaurio debe ser unico, por lo tanto para asegurarnos de que el usuario que ha elegido es unico \n debe pulsar en comprobar para asegurarse de que es unico\n"
-					+ "Una vez el usuario sea unico saldra un tick verde de confirmacion\n\n"
-					+ "Ademas, para generar la contraseña, debe saber que cuanto ams larga mas segura sera");
+							+ "Una vez el usuario sea unico saldra un tick verde de confirmacion\n\n"
+							+ "Ademas, para generar la contraseï¿½a, debe saber que cuanto ams larga mas segura sera");
 
 			break;
-			
+
 		case "Comprobar":
-			
-			labelUsaurio.setVisible(true);
-			
-			if (comprobar()) {
-				
-				labelUsaurio.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/1tickVerde.jpg")));
-				registrarse.setEnabled(true);
-				
-			} else {
-				
-				labelUsaurio.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/1error.png")));
-				
-			}
+
+			botonComprobar();
+
+			break;
+
+		case "Registrarse":
+
+			// crear el usaurio en la base de datos
+			registrarUsuario();
 			
 			break;
 			
-		case "Registrarse":
+		case "<":
 			
-			//crear el; usaurio en la base de datos
+			Principal p = new Principal();
 			
-			ControladorUsuario cu = new ControladorUsuario();
-			
-			Usuario nuevoUsuario = new Usuario();
-			
-			nuevoUsuario.setUsuario(campUser.getText());
-			nuevoUsuario.setPass(campPass.getText());
-			nuevoUsuario.setNombreUsuario(campNombre.getText());
-			nuevoUsuario.setApellidosUsuario(campApellidos.getText());
-			nuevoUsuario.setDireccion(campDireccion.getText());
-			nuevoUsuario.setEmail(campEmail.getText());
-			
-			cu.insertUser(nuevoUsuario);
-			
-			
-			JOptionPane.showMessageDialog(null, "Se ha creado y registrado tu usuario correctamente");
+			setVisible(false);
+			p.setVisible(true);
 			
 			break;
 
 		}
 
-		
-
 	}
 
-	private boolean comprobar() {
+	/**
+	 * Metdo que realiza el registro de un nuevo usuario en la base de datos
+	 */
+	private void registrarUsuario() {
 		
 		ControladorUsuario cu = new ControladorUsuario();
+
+		Usuario nuevoUsuario = new Usuario();
+
+		nuevoUsuario.setUsuario(campUser.getText());
+		nuevoUsuario.setPass(campPass.getText());
+		nuevoUsuario.setNombreUsuario(campNombre.getText());
+		nuevoUsuario.setApellidosUsuario(campApellidos.getText());
+		nuevoUsuario.setDireccion(campDireccion.getText());
+		nuevoUsuario.setEmail(campEmail.getText());
+
+		cu.insertUser(nuevoUsuario);
+
+		if (cu.findByUsuario(nuevoUsuario.getUsuario()).getUsuario().equals(nuevoUsuario.getUsuario())) {
+
+			JOptionPane.showMessageDialog(null, "Se ha creado y registrado tu usuario correctamente");
+		}
+	}
+	
+
+	/**
+	 * Metodo que se ejecuta cuando se pulsa el boton con texto "Comprobar"
+	 * 
+	 * <p>
+	 * Lo que realiza es una comprobacion para que no exista ninguna coincidencia
+	 * con el nuevo usuario que se va a introducir en el sistema
+	 */
+	private void botonComprobar() {
 		
+//		mostramos un label donde saldra el mensaje de aprobacion
+		labelUsaurio.setVisible(true);
+		if (comprobar()) {
+//			ponemos tick verde(aprobamos usuario)
+			labelUsaurio.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/1tickVerde.jpg")));
+//			activamos boton registrarse
+			registrarse.setEnabled(true);
+		} else {
+//			ponemos criz roja error (denegamos usuario)
+			labelUsaurio.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/1error.png")));
+		}
+	}
+
+	/**
+	 * Metodo que realiza un checkeo de cada uno de los usuarios ya insertados en la
+	 * base de datos para asegurarse de que el usuario que se va a crear es
+	 * completamente nuevo
+	 * 
+	 * <p>
+	 * Como el usuario debe ser unico esto debe ser estrictamente true
+	 * 
+	 * <p>
+	 * Al encontrar coincidencia con uno de los usuarios ya introducidos en el
+	 * sistema, salta una excepcion NullPointer
+	 * 
+	 * @return true (no encuentra coincidencias) | false(existe coincidencia)
+	 */
+	private boolean comprobar() {
+
+//		Creamos controlador
+		ControladorUsuario cu = new ControladorUsuario();
+
+//		Salta un nullpointer exception cuando matcheacon algun usuario Â¿Explicacion?
+
 		try {
+//			Busqueda
 			return cu.findAll().stream().noneMatch(usuario -> usuario.getUsuario().equals(campUser.getText()));
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			return false;
 		}
 	}
