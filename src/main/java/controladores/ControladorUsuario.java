@@ -12,7 +12,6 @@ import javax.persistence.Query;
 
 import entidades.Usuario;
 
-
 public class ControladorUsuario {
 
 	// Factoria para obtener objetos EntityManager
@@ -101,11 +100,11 @@ public class ControladorUsuario {
 	 * despues de usar el metodo <em>merge(Objeto)
 	 * 
 	 * <p>
-	 * merge(Objeto)</em> - Si una entidad con el mismo identificador que user existe en
-	 * el contexto de persistencia (cache), se actualizan sus atributos y se
-	 * devuelve. Si el objeto user no existe en la base de datos, se comporta como
-	 * persist() y la entidad gestionada es la devuelta por merge(), por lo que user
-	 * es una entidad desconectada
+	 * merge(Objeto)</em> - Si una entidad con el mismo identificador que user
+	 * existe en el contexto de persistencia (cache), se actualizan sus atributos y
+	 * se devuelve. Si el objeto user no existe en la base de datos, se comporta
+	 * como persist() y la entidad gestionada es la devuelta por merge(), por lo que
+	 * user es una entidad desconectada
 	 * 
 	 * @param user Usuario que queremos actualziar
 	 */
@@ -175,7 +174,7 @@ public class ControladorUsuario {
 		this.em = entityManagerFactory.createEntityManager();
 
 		this.consulta = em.createNamedQuery("Usuario.findAll");
-		
+
 		@SuppressWarnings("unchecked")
 		List<Usuario> listaTrabajadores = (List<Usuario>) consulta.getResultList();
 
@@ -199,8 +198,6 @@ public class ControladorUsuario {
 
 		try {
 			this.em = entityManagerFactory.createEntityManager();
-
-			
 
 			this.consulta = em.createNativeQuery("Select * from usuario where codUsuario = ?", Usuario.class);
 
@@ -244,7 +241,7 @@ public class ControladorUsuario {
 
 		return listaUsuarios;
 	}
-	
+
 	/**
 	 * 
 	 * @param usaurio
@@ -258,21 +255,25 @@ public class ControladorUsuario {
 
 		this.consulta.setParameter(1, usaurio);
 
-		Usuario usuarioABusacar = (Usuario) consulta.getSingleResult();
+		Usuario usuarioABusacar = null;
+		try {
+			usuarioABusacar = (Usuario) consulta.getSingleResult();
+		} catch (NoResultException e) {
+
+			return null;
+		}
 
 		this.em.close();
 
 		return usuarioABusacar;
 	}
-	
+
 	public static void main(String[] args) {
 
 		ControladorUsuario cu = new ControladorUsuario();
-		
+
 		recogerDatosUsuario().forEach(System.out::println);
 
-		
-		
 		recogerDatosUsuario().forEach(System.out::println);
 	}
 
