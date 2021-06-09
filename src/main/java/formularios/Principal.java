@@ -1,15 +1,11 @@
 package formularios;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import controladores.ControladorUsuario;
@@ -17,22 +13,23 @@ import entidades.Usuario;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JSeparator;
 import java.awt.Color;
+import javax.swing.JPasswordField;
 
 public class Principal extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField campoUsuario;
-	private JTextField campoPass;
 	private JTextField txtUsuario;
 	private JTextField txtContrasea;
+	private JPasswordField passwordField;
+	
+	private Usuario usuario;
 
 	/**
 	 * Launch the application.
@@ -94,14 +91,6 @@ public class Principal extends JFrame implements ActionListener {
 		separator.setBounds(10, 41, 251, 2);
 		panelCentral.add(separator);
 
-		campoPass = new JTextField();
-		campoPass.setForeground(Color.BLACK);
-		campoPass.setBackground(Color.LIGHT_GRAY);
-		campoPass.setBounds(121, 126, 127, 20);
-		campoPass.setBorder(null);
-		panelCentral.add(campoPass);
-		campoPass.setColumns(10);
-
 		JButton iniciarSesion = new JButton("Iniciar Sesion");
 		iniciarSesion.setBounds(83, 168, 120, 23);
 		iniciarSesion.addActionListener(this);
@@ -129,6 +118,11 @@ public class Principal extends JFrame implements ActionListener {
 		registrar.setBounds(41, 202, 207, 23);
 		registrar.addActionListener(this);
 		panelCentral.add(registrar);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBackground(Color.LIGHT_GRAY);
+		passwordField.setBounds(121, 126, 127, 19);
+		panelCentral.add(passwordField);
 
 		JButton botonAdmin = new JButton("Acceder modo administrador");
 		botonAdmin.setBounds(463, 407, 203, 23);
@@ -173,6 +167,8 @@ public class Principal extends JFrame implements ActionListener {
 			if (comprobarUsuario()) {
 
 				JOptionPane.showMessageDialog(null, "holi");
+				
+				VistaUsuario v = new VistaUsuario(usuario);
 
 			} else {
 
@@ -199,22 +195,14 @@ public class Principal extends JFrame implements ActionListener {
 //		mira si existe ese usuario		
 		if (cu.findAll().stream().anyMatch(user -> user.getUsuario().equals(campoUsuario.getText()))) {
 
-//			obtiene ese usuario (realizando una llamada a la base de datos, la cual devuelve
-//			una lista a la que le hacemos un stream, almacenandolo en una 
-//			lista(de una unica posicion) y obteniendo la posicion 0)
-			Usuario usaurio = cu.findAll().stream()
-					.filter(usuario -> usuario.getUsuario().equals(campoUsuario.getText())).collect(Collectors.toList())
-					.get(0);
-
-//			si tienen la misma contrase�a			
-			if (usaurio.getPass().equals(campoPass.getText())) {
-
+//			buscamos el usuario por el nombre de usuario
+			usuario = cu.findByUsuario(campoUsuario.getText());
+			
+//			si tienen la misma contrase�a...
+			if (usuario.getPass().equals(new String(passwordField.getPassword()))) {
 				return true;
-
 			}
-
 		}
-
 		return false;
 	}
 }
