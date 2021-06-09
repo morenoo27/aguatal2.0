@@ -270,7 +270,7 @@ public class ControladorUsuario {
 
 	public static void main(String[] args) {
 
-		ControladorUsuario cu = new ControladorUsuario();
+//		ControladorUsuario cu = new ControladorUsuario();
 
 		recogerDatosUsuario().forEach(System.out::println);
 

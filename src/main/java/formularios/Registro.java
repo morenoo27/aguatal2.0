@@ -25,6 +25,7 @@ import java.awt.SystemColor;
 import javax.swing.JRadioButton;
 import javax.swing.JPasswordField;
 
+@SuppressWarnings("serial")
 public class Registro extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
@@ -103,7 +104,7 @@ public class Registro extends JFrame implements ActionListener {
 		txtMensajeBienbenidaEquipo.setBackground(SystemColor.activeCaption);
 		txtMensajeBienbenidaEquipo.setEditable(false);
 		txtMensajeBienbenidaEquipo.setText("mensaje bienvenida equipo directivo");
-		txtMensajeBienbenidaEquipo.setBounds(0, 0, 457, 20);
+		txtMensajeBienbenidaEquipo.setBounds(0, 0, 440, 20);
 		panelCentral.add(txtMensajeBienbenidaEquipo);
 		txtMensajeBienbenidaEquipo.setColumns(10);
 
@@ -245,7 +246,7 @@ public class Registro extends JFrame implements ActionListener {
 		contentPane.add(passwordField);
 
 //		instanciamos los precios
-		precios = new double[] { 5.99, 7.99, 9.99 };
+		precios = new double[] { 5.99, 7.99, 9.99};
 		sus = 0;
 
 	}
@@ -304,6 +305,7 @@ public class Registro extends JFrame implements ActionListener {
 
 		case "Comprobar":
 
+//			comprobacion
 			botonComprobar();
 
 			break;
@@ -358,7 +360,7 @@ public class Registro extends JFrame implements ActionListener {
 			Suscripcion susUsuario = new Suscripcion();
 
 			susUsuario.setPrecioMensual(sus);
-			susUsuario.setUsuario(cu.findByUsuario(campUser.getText()));
+			 
 
 			cs.insertSus(susUsuario);
 
@@ -397,6 +399,7 @@ public class Registro extends JFrame implements ActionListener {
 		} else {
 //			ponemos criz roja error (denegamos usuario)
 			labelUsaurio.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/1error.png")));
+			registrarse.setEnabled(false);
 		}
 	}
 
@@ -419,7 +422,7 @@ public class Registro extends JFrame implements ActionListener {
 //		Creamos controlador
 		ControladorUsuario cu = new ControladorUsuario();
 
-//		Salta un nullpointer exception cuando matcheacon algun usuario Â¿Explicacion?
+//		Salta un nullpointer exception cuando matcheacon algun usuario ¿Explicacion?
 
 		try {
 //			Busqueda

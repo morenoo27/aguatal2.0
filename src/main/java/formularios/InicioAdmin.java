@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class InicioAdmin extends JFrame implements ActionListener {
 
 	private JPanel contentPane;

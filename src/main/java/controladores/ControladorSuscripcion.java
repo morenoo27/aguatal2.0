@@ -108,6 +108,7 @@ public class ControladorSuscripcion {
 
 			this.consulta = em.createNamedQuery("Suscripcion.findAll");
 
+			@SuppressWarnings("unchecked")
 			List<Suscripcion> listaTrabajadores = consulta.getResultList();
 
 			this.em.close();

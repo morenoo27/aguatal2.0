@@ -1,23 +1,28 @@
 package formularios;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
 import controladores.ControladorUsuario;
 import entidades.Usuario;
+import javax.swing.JTextField;
 
-public class VistaUsuario extends JFrame {
+@SuppressWarnings("serial")
+public class VistaUsuario extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-
-	
-	
-	
 	/**
 	 * Launch the application.
 	 */
@@ -42,13 +47,20 @@ public class VistaUsuario extends JFrame {
 		
 		setTitle("AGUATAL CORPORATION");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 406);
+		setBounds(100, 100, 757, 624);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-//		JOptionPane.showMessageDialog(null, usuario.getNombreUsuario());
+		JOptionPane.showMessageDialog(null, usuario.getCodUsuario());
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -2,7 +2,6 @@ package controladores;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,9 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import entidades.Dispensadora;
 import entidades.Pedido;
-import entidades.Usuario;
 
 
 public class ControladorPedido {
@@ -137,34 +134,5 @@ public class ControladorPedido {
 			System.out.println("No se encuentra el dato que se queire buscar");
 			return null;
 		}
-	}
-
-	public static void main(String[] args) {
-
-		ControladorUsuario cu = new ControladorUsuario();
-		ControladorPedido cp = new ControladorPedido();
-		ControladorDispensadora cd = new ControladorDispensadora();
-
-		Usuario u = new Usuario();
-		u.setNombreUsuario("Alejandro");
-		u.setApellidosUsuario("Moreno");
-		u.setEmail("privado@gmail.com");
-		u.setDireccion("mi casa");
-		
-		cu.insertUser(u);// Si está creado lanzará una excepcións
-	}
-
-	private static ArrayList<Pedido> recogerDatosPedido() {
-		ControladorPedido cp = new ControladorPedido();
-		
-		return cp.findAll().stream().collect(Collectors.toCollection(ArrayList::new));
-	}
-
-	private static ArrayList<Usuario> recogerDatosUsuario() {
-
-		ControladorUsuario cu = new ControladorUsuario();
-
-		return cu.findAll().stream().collect(Collectors.toCollection(ArrayList::new)); // conversion por stream a un
-																						// arraylist
 	}
 }

@@ -9,13 +9,13 @@
 		
 		<properties>
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://192.168.56.101:3306/aguatalv2?serverTimezone=Europe/Madrid" />
+				value="jdbc:mysql://localhost:3306/aguatalv2?serverTimezone=Europe/Madrid" />
 			<property name="javax.persistence.jdbc.user"
-				value="moreno27" />
+				value="root" />
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.password"
-				value="inmado2" />
+				value="" />
 		</properties>
 		
 	</persistence-unit>

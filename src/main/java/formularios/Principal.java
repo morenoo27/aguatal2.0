@@ -21,6 +21,7 @@ import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 
+@SuppressWarnings("serial")
 public class Principal extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
@@ -122,6 +123,7 @@ public class Principal extends JFrame implements ActionListener {
 		passwordField = new JPasswordField();
 		passwordField.setBackground(Color.LIGHT_GRAY);
 		passwordField.setBounds(121, 126, 127, 19);
+		passwordField.setBorder(null);
 		panelCentral.add(passwordField);
 
 		JButton botonAdmin = new JButton("Acceder modo administrador");
@@ -165,16 +167,15 @@ public class Principal extends JFrame implements ActionListener {
 		case "Iniciar Sesion":
 
 			if (comprobarUsuario()) {
-
-				JOptionPane.showMessageDialog(null, "holi");
 				
 				VistaUsuario v = new VistaUsuario(usuario);
+				setVisible(false);
+				v.setVisible(true);
 
 			} else {
 
 				// mensaje "intentelo de nuevo"
 				JOptionPane.showMessageDialog(null, "Usuario o contrase�a incorrectos\nIntentelo de nuevo");
-
 			}
 
 			break;
