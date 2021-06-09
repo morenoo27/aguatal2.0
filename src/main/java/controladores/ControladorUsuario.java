@@ -98,11 +98,10 @@ public class ControladorUsuario {
 	 * 
 	 * <p>
 	 * Para este proceso se trealiza una transaccion en la que se commitea la accion
-	 * despues de usar el metodo<br/>
-	 * merge(Objeto)
+	 * despues de usar el metodo <em>merge(Objeto)
 	 * 
 	 * <p>
-	 * merge(Objeto) - Si una entidad con el mismo identificador que user existe en
+	 * merge(Objeto)</em> - Si una entidad con el mismo identificador que user existe en
 	 * el contexto de persistencia (cache), se actualizan sus atributos y se
 	 * devuelve. Si el objeto user no existe en la base de datos, se comporta como
 	 * persist() y la entidad gestionada es la devuelta por merge(), por lo que user
@@ -179,7 +178,6 @@ public class ControladorUsuario {
 		
 		@SuppressWarnings("unchecked")
 		List<Usuario> listaTrabajadores = (List<Usuario>) consulta.getResultList();
-//		List<Usuario> listaTrabajadores = em.createQuery("from Usuario", Usuario.class).getResultList();
 
 		this.em.close();
 
@@ -202,13 +200,13 @@ public class ControladorUsuario {
 		try {
 			this.em = entityManagerFactory.createEntityManager();
 
-			Usuario aux = null;
+			
 
 			this.consulta = em.createNativeQuery("Select * from usuario where codUsuario = ?", Usuario.class);
 
 			this.consulta.setParameter(1, pk);// intercambiar primera ? por pk
 
-			aux = (Usuario) consulta.getSingleResult();
+			Usuario aux = (Usuario) consulta.getSingleResult();
 
 			this.em.close();
 
@@ -247,25 +245,33 @@ public class ControladorUsuario {
 		return listaUsuarios;
 	}
 	
+	/**
+	 * 
+	 * @param usaurio
+	 * @return
+	 */
+	public Usuario findByUsuario(String usaurio) {
+
+		this.em = entityManagerFactory.createEntityManager();
+
+		this.consulta = em.createNativeQuery("Select * from usuario where usuario=?", Usuario.class);
+
+		this.consulta.setParameter(1, usaurio);
+
+		Usuario usuarioABusacar = (Usuario) consulta.getSingleResult();
+
+		this.em.close();
+
+		return usuarioABusacar;
+	}
+	
 	public static void main(String[] args) {
 
 		ControladorUsuario cu = new ControladorUsuario();
-
-//		Usuario u = new Usuario();
-//		u.setNombreUsuario("Alejandro");
-//		u.setApellidosUsuario("Moreno");
-//		u.setEmail("privado@gmail.com");
-//		u.setDireccion("mi casa");
-//		cu.insertUser(u);// Si está creado lanzará una excepcións
-
+		
 		recogerDatosUsuario().forEach(System.out::println);
+
 		
-		Usuario nuevoalex = cu.findByPK(4);
-		
-		nuevoalex.setUsuario("more");
-		nuevoalex.setPass("1234");
-		
-		cu.modifyuser(nuevoalex);
 		
 		recogerDatosUsuario().forEach(System.out::println);
 	}
