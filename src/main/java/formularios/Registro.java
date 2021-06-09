@@ -8,18 +8,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controladores.ControladorSuscripcion;
 import controladores.ControladorUsuario;
+import entidades.Suscripcion;
 import entidades.Usuario;
 
 import javax.swing.JTextField;
 import java.awt.Color;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import javax.swing.JRadioButton;
+import javax.swing.JPasswordField;
 
 public class Registro extends JFrame implements ActionListener {
 
@@ -33,7 +37,6 @@ public class Registro extends JFrame implements ActionListener {
 	private JButton comprobar;
 	private JButton ayudaUsuario;
 	private JTextField campUser;
-	private JTextField campPass;
 	private JTextField campNombre;
 	private JTextField campApellidos;
 	private JTextField campDireccion;
@@ -42,6 +45,11 @@ public class Registro extends JFrame implements ActionListener {
 	private JTextField campEmail;
 	private JButton registrarse;
 	private JTextField txtSeleccionaUnPlan;
+	private ButtonGroup grupoPlan;
+	private JPasswordField passwordField;
+
+	private double[] precios;
+	private double sus;
 
 	/**
 	 * Launch the application.
@@ -160,12 +168,6 @@ public class Registro extends JFrame implements ActionListener {
 		campUser.setBounds(160, 142, 107, 20);
 		contentPane.add(campUser);
 
-		campPass = new JTextField();
-		campPass.setBackground(Color.LIGHT_GRAY);
-		campPass.setColumns(10);
-		campPass.setBounds(160, 173, 107, 20);
-		contentPane.add(campPass);
-
 		campNombre = new JTextField();
 		campNombre.setBackground(Color.LIGHT_GRAY);
 		campNombre.setColumns(10);
@@ -211,14 +213,17 @@ public class Registro extends JFrame implements ActionListener {
 
 		JRadioButton precio1 = new JRadioButton("Plan basico");
 		precio1.setBounds(28, 392, 109, 23);
+		precio1.addActionListener(this);
 		contentPane.add(precio1);
 
 		JRadioButton precio2 = new JRadioButton("Plan premium");
 		precio2.setBounds(160, 392, 109, 23);
+		precio2.addActionListener(this);
 		contentPane.add(precio2);
 
 		JRadioButton precio3 = new JRadioButton("Plan Nova");
 		precio3.setBounds(294, 392, 109, 23);
+		precio3.addActionListener(this);
 		contentPane.add(precio3);
 
 		txtSeleccionaUnPlan = new JTextField();
@@ -229,12 +234,62 @@ public class Registro extends JFrame implements ActionListener {
 		txtSeleccionaUnPlan.setBounds(140, 365, 143, 20);
 		contentPane.add(txtSeleccionaUnPlan);
 
+		grupoPlan = new ButtonGroup();
+		grupoPlan.add(precio1);
+		grupoPlan.add(precio2);
+		grupoPlan.add(precio3);
+
+		passwordField = new JPasswordField();
+		passwordField.setBackground(Color.LIGHT_GRAY);
+		passwordField.setBounds(162, 173, 107, 19);
+		contentPane.add(passwordField);
+
+//		instanciamos los precios
+		precios = new double[] { 5.99, 7.99, 9.99 };
+		sus = 0;
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		JButton boton = (JButton) e.getSource();
+		Object o = e.getSource();
+
+		if (o instanceof JRadioButton) {
+
+			botonesRadio(o);
+
+		} else if (o instanceof JButton) {
+
+			botones(o);
+		}
+
+	}
+
+	private void botonesRadio(Object o) {
+
+		JRadioButton radio = (JRadioButton) o;
+
+		switch (radio.getText()) {
+		case "Plan basico":
+
+			sus = precios[0];
+			break;
+		case "Plan premium":
+			sus = precios[1];
+			break;
+		case "Plan Nova":
+			sus = precios[2];
+			break;
+		}
+	}
+	
+//	JOptionPane.showMessageDialog(null, "");
+	
+	private void botones(Object o) {
+
+//		casting
+		JButton boton = (JButton) o;
 
 		switch (boton.getText()) {
 
@@ -257,46 +312,71 @@ public class Registro extends JFrame implements ActionListener {
 
 			// crear el usaurio en la base de datos
 			registrarUsuario();
-			
-			break;
-			
-		case "<":
-			
-			Principal p = new Principal();
-			
-			setVisible(false);
-			p.setVisible(true);
-			
+
 			break;
 
+		case "<":
+
+			Principal p = new Principal();
+
+			setVisible(false);
+			p.setVisible(true);
+
+			break;
 		}
 
 	}
 
 	/**
 	 * Metdo que realiza el registro de un nuevo usuario en la base de datos
+	 * 
+	 * <p>
+	 * Primero, con el controlador usuario se introduce el usuario con el usuario
+	 * insanciado segun los campos de textos de la vista
+	 * 
+	 * <p>
+	 * Acto seguido, con el controlador suscripcion se introduce la suscripcion ligada a ese usuario
 	 */
 	private void registrarUsuario() {
-		
+
 		ControladorUsuario cu = new ControladorUsuario();
+		ControladorSuscripcion cs = new ControladorSuscripcion();
 
-		Usuario nuevoUsuario = new Usuario();
+		if (sus != 0) {
 
-		nuevoUsuario.setUsuario(campUser.getText());
-		nuevoUsuario.setPass(campPass.getText());
-		nuevoUsuario.setNombreUsuario(campNombre.getText());
-		nuevoUsuario.setApellidosUsuario(campApellidos.getText());
-		nuevoUsuario.setDireccion(campDireccion.getText());
-		nuevoUsuario.setEmail(campEmail.getText());
+			Usuario nuevoUsuario = new Usuario();
 
-		cu.insertUser(nuevoUsuario);
+			nuevoUsuario.setUsuario(campUser.getText());
+			nuevoUsuario.setPass(new String(passwordField.getPassword()));// String construido a partir de un char
+			nuevoUsuario.setNombreUsuario(campNombre.getText());
+			nuevoUsuario.setApellidosUsuario(campApellidos.getText());
+			nuevoUsuario.setDireccion(campDireccion.getText());
+			nuevoUsuario.setEmail(campEmail.getText());
 
-		if (cu.findByUsuario(nuevoUsuario.getUsuario()).getUsuario().equals(nuevoUsuario.getUsuario())) {
+			cu.insertUser(nuevoUsuario);
 
-			JOptionPane.showMessageDialog(null, "Se ha creado y registrado tu usuario correctamente");
+			Suscripcion susUsuario = new Suscripcion();
+
+			susUsuario.setPrecioMensual(sus);
+			susUsuario.setUsuario(cu.findByUsuario(campUser.getText()));
+
+			cs.insertSus(susUsuario);
+
+			if (cu.findByUsuario(nuevoUsuario.getUsuario()).getUsuario().equals(nuevoUsuario.getUsuario())) {
+
+				JOptionPane.showMessageDialog(null, "Se ha creado y registrado tu usuario correctamente");
+				
+				setVisible(false);
+				Principal p = new Principal();
+				p.setVisible(true);
+				
+			}
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"No has seleccionado un plan de suscriocion\n" + "Por favor, seleccione uno");
 		}
+
 	}
-	
 
 	/**
 	 * Metodo que se ejecuta cuando se pulsa el boton con texto "Comprobar"
@@ -306,7 +386,7 @@ public class Registro extends JFrame implements ActionListener {
 	 * con el nuevo usuario que se va a introducir en el sistema
 	 */
 	private void botonComprobar() {
-		
+
 //		mostramos un label donde saldra el mensaje de aprobacion
 		labelUsaurio.setVisible(true);
 		if (comprobar()) {
