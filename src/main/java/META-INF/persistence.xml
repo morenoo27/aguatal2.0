@@ -7,15 +7,26 @@
 		<class>entidades.Suscripcion</class>
 		<class>entidades.Usuario</class>
 		
+<!-- 		<properties> -->
+<!-- 			<property name="javax.persistence.jdbc.url" -->
+<!-- 				value="jdbc:mysql://localhost:3306/aguatalv2?serverTimezone=Europe/Madrid" /> -->
+<!-- 			<property name="javax.persistence.jdbc.user" -->
+<!-- 				value="root" /> -->
+<!-- 			<property name="javax.persistence.jdbc.driver" -->
+<!-- 				value="com.mysql.cj.jdbc.Driver" /> -->
+<!-- 			<property name="javax.persistence.jdbc.password" -->
+<!-- 				value="" /> -->
+<!-- 		</properties> -->
+		
 		<properties>
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/aguatalv2?serverTimezone=Europe/Madrid" />
+				value="jdbc:mysql://192.168.56.101:3306/aguatalv2?serverTimezone=Europe/Madrid" />
 			<property name="javax.persistence.jdbc.user"
-				value="root" />
+				value="moreno27" />
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.password"
-				value="" />
+				value="inmado2" />
 		</properties>
 		
 	</persistence-unit>

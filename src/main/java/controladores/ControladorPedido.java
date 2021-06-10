@@ -2,6 +2,7 @@ package controladores;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -126,6 +127,29 @@ public class ControladorPedido {
 			this.consulta.setParameter(1, pk);// intercambiar primera ? por pk
 
 			aux = (Pedido) consulta.getSingleResult();
+
+			this.em.close();
+
+			return aux;
+		} catch (NoResultException ex) {
+			System.out.println("No se encuentra el dato que se queire buscar");
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Pedido> findByUser(int pkUser){
+		
+		try {
+			this.em = entityManagerFactory.createEntityManager();
+
+			ArrayList<Pedido> aux = new ArrayList<>();
+
+			this.consulta = em.createNativeQuery("Select * from pedido where codUsuario = ?", Pedido.class);
+
+			this.consulta.setParameter(1, pkUser);// intercambiar primera ? por pk
+
+			aux = (ArrayList<Pedido>) consulta.getResultList().stream().collect(Collectors.toCollection(ArrayList::new));
 
 			this.em.close();
 
