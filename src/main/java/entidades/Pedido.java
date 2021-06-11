@@ -3,9 +3,6 @@ package entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Clase que representa la tabla pedido de la base de datos aguatalv2 que
  * contiene la informacion sobre un pedido que realiza un cliente/usuario
@@ -22,16 +19,14 @@ public class Pedido implements Serializable {
 	private int codPedido;
 
 	// bi-directional many-to-one association to Usuario
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codUsuario", insertable = false, updatable = false)
+	@ManyToOne(fetch =  FetchType.EAGER)
 	private Usuario usuario;
 
 	// bi-directional many-to-one association to Dispensadora
-	@OneToMany(mappedBy = "pedido")
-	private List<Dispensadora> dispensadoras;
+	@OneToOne(mappedBy = "pedido")
+	private Dispensadora dispensadora;
 
 	public Pedido() {
-		this.dispensadoras = new ArrayList<>();
 	}
 
 	public int getCodPedido() {
@@ -50,26 +45,12 @@ public class Pedido implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public List<Dispensadora> getDispensadoras() {
-		return this.dispensadoras;
+	public Dispensadora getDispensadoras() {
+		return this.dispensadora;
 	}
 
-	public void setDispensadoras(List<Dispensadora> dispensadoras) {
-		this.dispensadoras = dispensadoras;
-	}
-
-	public Dispensadora addDispensadora(Dispensadora dispensadora) {
-		getDispensadoras().add(dispensadora);
-		dispensadora.setPedido(this);
-
-		return dispensadora;
-	}
-
-	public Dispensadora removeDispensadora(Dispensadora dispensadora) {
-		getDispensadoras().remove(dispensadora);
-		dispensadora.setPedido(null);
-
-		return dispensadora;
+	public void setDispensadoras(Dispensadora dispensadoraPedido) {
+		this.dispensadora = dispensadoraPedido;
 	}
 
 	@Override
@@ -80,7 +61,7 @@ public class Pedido implements Serializable {
 		builder.append(codPedido);
 		
 		builder.append(", dispensadoras=");
-		builder.append(obtenerDis());
+		builder.append(dispensadora.getCodDispensadora());
 		
 		builder.append(", usuario=");
 		try {
@@ -92,23 +73,5 @@ public class Pedido implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
-
-	private Object obtenerDis() {
-
-		if (!this.dispensadoras.isEmpty()) {
-			String texto = "";
-			
-			for (Dispensadora dispensadora : dispensadoras) {
-				
-				
-				texto += dispensadora.toString() + ", ";
-			}
-			
-			return texto;
-		}
-		
-		return ", ";
-	}
-
 	
 }

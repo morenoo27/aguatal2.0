@@ -1,3 +1,4 @@
+drop database aguatalv2;
 create database if not exists aguatalv2;
 
 use aguatalv2;
@@ -14,8 +15,8 @@ create table if not exists usuario(
     
     primary key (codUsuario)
 );
-
-insert into usuario values (null,'moreno27','moreno27','Alejandro','Moreno Martin','privado@gmail.com','mi casa'),(null,'vico','1234','Vico','Super Star','vico@apruebame.com','Mar Alboran'),(null,'jonivasilon','elmitico123','Joni','Chacon Mena','chaconi@gmail.com','su casa');
+set FOREIGN_KEY_CHECKS=0;
+ insert into usuario values (null,'moreno27','moreno27','Alejandro','Moreno Martin','privado@gmail.com','mi casa'),(null,'vico','1234','Vico','Super Star','vico@apruebame.com','Mar Alboran'),(null,'jonivasilon','elmitico123','Joni','Chacon Mena','chaconi@gmail.com','su casa');
 
 
 
@@ -25,6 +26,7 @@ create table if not exists dispensadora(
     
     primary key (codDispensadora)
 );
+set FOREIGN_KEY_CHECKS=0;
  insert into dispensadora values (null,'pequenia'),(null,'mediana'),(null,'grande');
 
 
@@ -39,9 +41,8 @@ create table if not exists suscripcion(
     foreign key (codUsuario) references usuario(codUsuario)
 		on update cascade on delete cascade
 );
-
-insert into suscripcion values (null,1,8.99),(null,2,5.99),(null,3,6.99);
-
+set FOREIGN_KEY_CHECKS=0;
+ insert into suscripcion values (null,null,8.99),(null,null,5.99),(null,null,6.99);
 
 
 create table if not exists pedido(
@@ -55,8 +56,7 @@ create table if not exists pedido(
 		on update cascade on delete cascade,
         
 	foreign key (codDispensadora) references dispensadora(codDispensadora)
-		on update cascade on delete no action
+		on update cascade on delete cascade
 );
-
-insert into pedido values (null,1,1),(null,1,2),(null,2,3);
-
+set FOREIGN_KEY_CHECKS=0;
+ insert into pedido values (null,1,1),(null,1,2),(null,2,3);

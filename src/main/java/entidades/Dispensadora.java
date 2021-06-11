@@ -25,8 +25,9 @@ public class Dispensadora implements Serializable {
 	private String tamanio;
 
 	// bi-directional many-to-one association to Pedido
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codDispensadora", referencedColumnName = "codDispensadora",insertable = false, updatable = false)
+	
+	@OneToOne(cascade = {CascadeType.PERSIST})
+	@JoinColumn(name = "codPedido", referencedColumnName = "codPedido", insertable = false, updatable = true)
 	private Pedido pedido;
 
 	public Dispensadora() {

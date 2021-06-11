@@ -299,7 +299,7 @@ public class Registro extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null,
 					"El usaurio debe ser unico, por lo tanto para asegurarnos de que el usuario que ha elegido es unico \n debe pulsar en comprobar para asegurarse de que es unico\n"
 							+ "Una vez el usuario sea unico saldra un tick verde de confirmacion\n\n"
-							+ "Ademas, para generar la contrase�a, debe saber que cuanto ams larga mas segura sera");
+							+ "Ademas, para generar la contrase�a, debe saber que cuanto mas larga, mas segura sera");
 
 			break;
 
@@ -360,7 +360,7 @@ public class Registro extends JFrame implements ActionListener {
 			Suscripcion susUsuario = new Suscripcion();
 
 			susUsuario.setPrecioMensual(sus);
-			 
+			susUsuario.setUsuario(cu.findByUsuario(nuevoUsuario.getUsuario()));
 
 			cs.insertSus(susUsuario);
 
