@@ -30,10 +30,11 @@ public class VistaAdmin extends JFrame implements ActionListener{
 	private JScrollPane panelPedidos;
 	private JTable table;
 	private JLabel lblPedidos;
-	private JButton btnNPedido;
-	private JButton btnActualizarPedido;
-	private JTextField textField;
+	private JTextField textEncabezado;
 	private JLabel lblLogo;
+	private JButton btnNewButton;
+	private JButton btnMostrarTodasLas;
+	private JButton btnMostrarTodosLos;
 
 	/**
 	 * Launch the application.
@@ -82,15 +83,15 @@ public class VistaAdmin extends JFrame implements ActionListener{
 
 		txtBienvenidoDeNuevo = new JTextField();
 		String nombre = " Bienvenido de nuevo admin,";
-		txtBienvenidoDeNuevo.setText(nombre);
-		txtBienvenidoDeNuevo.setBounds(85, 12, 277, 23);
+		txtBienvenidoDeNuevo.setText(" Bienvenido de nuevo admin");
+		txtBienvenidoDeNuevo.setBounds(85, 12, 168, 23);
 		txtBienvenidoDeNuevo.setBorder(null);
 		txtBienvenidoDeNuevo.setEditable(false);
 		txtBienvenidoDeNuevo.setColumns(10);
 		contentPane.add(txtBienvenidoDeNuevo);
 
 		panelPedidos = new JScrollPane();
-		panelPedidos.setBounds(12, 216, 350, 122);
+		panelPedidos.setBounds(12, 216, 514, 122);
 		contentPane.add(panelPedidos);
 
 		table = new JTable();
@@ -101,34 +102,36 @@ public class VistaAdmin extends JFrame implements ActionListener{
 
 		lblPedidos = new JLabel("");
 		lblPedidos.setBackground(Color.WHITE);
-		lblPedidos.setBounds(12, 158, 350, 180);
+		lblPedidos.setBounds(12, 158, 514, 180);
 		lblPedidos.setOpaque(true);
 		lblPedidos.setVisible(true);
 
-		btnNPedido = new JButton("Solicitar pedido");
-		btnNPedido.setBounds(191, 182, 142, 23);
-		btnNPedido.addActionListener(this);
-		contentPane.add(btnNPedido);
-
-		btnActualizarPedido = new JButton("Actualizar pedidos");
-		btnActualizarPedido.setBounds(25, 182, 142, 23);
-		btnActualizarPedido.addActionListener(this);
-		contentPane.add(btnActualizarPedido);
-
-		textField = new JTextField();
-		textField.setText("  Pedidos solicitados por usted:");
-		textField.setColumns(10);
-		textField.setBorder(null);
-		textField.setBounds(12, 158, 176, 20);
-		textField.setBorder(null);
-		textField.setEditable(false);
-		contentPane.add(textField);
+		textEncabezado = new JTextField();
+		textEncabezado.setBackground(Color.WHITE);
+		textEncabezado.setColumns(10);
+		textEncabezado.setBorder(null);
+		textEncabezado.setBounds(12, 158, 514, 20);
+		textEncabezado.setBorder(null);
+		textEncabezado.setEditable(false);
+		contentPane.add(textEncabezado);
 		contentPane.add(lblPedidos);
 
 		lblLogo = new JLabel();
 		lblLogo.setIcon(new ImageIcon(VistaUsuario.class.getResource("/imagenes/logo.png")));
 		lblLogo.setBounds(12, 12, 58, 36);
 		contentPane.add(lblLogo);
+		
+		btnNewButton = new JButton("Mostrar todos los clientes");
+		btnNewButton.setBounds(12, 54, 168, 23);
+		contentPane.add(btnNewButton);
+		
+		btnMostrarTodasLas = new JButton("Mostrar todas las suscripciones");
+		btnMostrarTodasLas.setBounds(12, 88, 203, 23);
+		contentPane.add(btnMostrarTodasLas);
+		
+		btnMostrarTodosLos = new JButton("Mostrar todos los pedidos");
+		btnMostrarTodosLos.setBounds(12, 122, 168, 23);
+		contentPane.add(btnMostrarTodosLos);
 	}
 
 	@Override
