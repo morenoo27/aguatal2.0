@@ -3,6 +3,8 @@ package formularios;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -12,6 +14,7 @@ import javax.swing.table.TableColumn;
 
 import controladores.ControladorDispensadora;
 import controladores.ControladorPedido;
+import controladores.ControladorSuscripcion;
 import controladores.ControladorUsuario;
 import entidades.Dispensadora;
 import entidades.Pedido;
@@ -20,24 +23,34 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class VistaUsuario extends JFrame implements ActionListener {
 
-	private JPanel contentPane;
-	private JTable table;
-	private JTextField textField;
-	private Usuario sesionUsuario;
-
 	private static ControladorPedido cp = new ControladorPedido();
 	private static ControladorDispensadora cd = new ControladorDispensadora();
 	private static ControladorUsuario cu = new ControladorUsuario();
+	private static ControladorSuscripcion cs = new ControladorSuscripcion();
+
+	private JPanel contentPane;
+	private JTable table;
+	private JTextField textField;
+	private JTextField txtBienvenidoDeNuevo;
+	private JTextField txtSus;
+	private JButton btnActualizarUsuario;
+	private Usuario sesionUsuario;
+	private JButton btnMostrarDatos;
+	private JScrollPane panelPedidos;
+	private JLabel lblPedidos;
+	private JButton btnNPedido;
+	private JButton btnActualizarPedido;
+	private JLabel lblLogo;
 
 	/**
 	 * Launch the application.
@@ -63,38 +76,67 @@ public class VistaUsuario extends JFrame implements ActionListener {
 
 		this.sesionUsuario = usuario;
 
+		initComponents();
+	}
+
+	private void initComponents() {
+//		Mensaje para asegurar la salida de la aplkicacion
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+
+				// Se pide una confirmación antes de finalizar el programa
+				int option = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que quieres cerrar sesion?",
+						"Confirmación de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (option == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
+			}
+		});
+
 		setTitle("AGUATAL CORPORATION");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 757, 624);
+		setBounds(100, 100, 552, 399);
+
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JScrollPane panelPedidos = new JScrollPane();
-		panelPedidos.setBounds(36, 181, 350, 122);
+		txtBienvenidoDeNuevo = new JTextField();
+		String nombre = " Bienvenido de nuevo " + sesionUsuario.getNombreUsuario() + ",";
+		txtBienvenidoDeNuevo.setText(nombre);
+		txtBienvenidoDeNuevo.setBounds(85, 12, 277, 23);
+		txtBienvenidoDeNuevo.setBorder(null);
+		txtBienvenidoDeNuevo.setEditable(false);
+		txtBienvenidoDeNuevo.setColumns(10);
+		contentPane.add(txtBienvenidoDeNuevo);
+
+		panelPedidos = new JScrollPane();
+		panelPedidos.setBounds(12, 216, 350, 122);
 		contentPane.add(panelPedidos);
 
-		table = generarTabla(sesionUsuario);
+		table = generarTabla();
 		table.setColumnSelectionAllowed(true);
 		table.addColumn(new TableColumn(NORMAL));
 
 		panelPedidos.setViewportView(table);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBackground(Color.WHITE);
-		lblNewLabel.setBounds(36, 123, 350, 180);
-		lblNewLabel.setOpaque(true);
-		lblNewLabel.setVisible(true);
+		lblPedidos = new JLabel("");
+		lblPedidos.setBackground(Color.WHITE);
+		lblPedidos.setBounds(12, 158, 350, 180);
+		lblPedidos.setOpaque(true);
+		lblPedidos.setVisible(true);
 
-		JButton btnNPedido = new JButton("Solicitar pedido");
-		btnNPedido.setBounds(215, 147, 142, 23);
+		btnNPedido = new JButton("Solicitar pedido");
+		btnNPedido.setBounds(191, 182, 142, 23);
 		btnNPedido.addActionListener(this);
 		contentPane.add(btnNPedido);
 
-		JButton btnActualizarPedido = new JButton("Actualizar pedidos");
-		btnActualizarPedido.setBounds(49, 147, 142, 23);
+		btnActualizarPedido = new JButton("Actualizar pedidos");
+		btnActualizarPedido.setBounds(25, 182, 142, 23);
 		btnActualizarPedido.addActionListener(this);
 		contentPane.add(btnActualizarPedido);
 
@@ -102,17 +144,36 @@ public class VistaUsuario extends JFrame implements ActionListener {
 		textField.setText("  Pedidos solicitados por usted:");
 		textField.setColumns(10);
 		textField.setBorder(null);
-		textField.setBounds(36, 123, 176, 20);
+		textField.setBounds(12, 158, 176, 20);
+		textField.setBorder(null);
+		textField.setEditable(false);
 		contentPane.add(textField);
-		contentPane.add(lblNewLabel);
+		contentPane.add(lblPedidos);
 
-		JLabel lblLogo = new JLabel();
+		lblLogo = new JLabel();
 		lblLogo.setIcon(new ImageIcon(VistaUsuario.class.getResource("/imagenes/logo.png")));
 		lblLogo.setBounds(12, 12, 58, 36);
 		contentPane.add(lblLogo);
 
-//		JOptionPane.showMessageDialog(null, usuario.getCodUsuario());
+		txtSus = new JTextField();
+		String suscripcion = " Suscripcion: " + cs.findByUserPK(sesionUsuario.getCodUsuario()).getCodSuscripcion() + " -> "
+				+ cs.findByUserPK(sesionUsuario.getCodUsuario()).getPrecioMensual();
+		txtSus.setText(suscripcion);
+		txtSus.setColumns(10);
+		txtSus.setBounds(85, 35, 277, 23);
+		txtSus.setBorder(null);
+		txtSus.setEditable(false);
+		contentPane.add(txtSus);
 
+		btnActualizarUsuario = new JButton("Actaulizar datos");
+		btnActualizarUsuario.setBounds(372, 11, 154, 23);
+		btnActualizarUsuario.addActionListener(this);
+		contentPane.add(btnActualizarUsuario);
+
+		btnMostrarDatos = new JButton("Mostrar datos");
+		btnMostrarDatos.setBounds(372, 45, 154, 23);
+		btnMostrarDatos.addActionListener(this);
+		contentPane.add(btnMostrarDatos);
 	}
 
 	@Override
@@ -122,22 +183,49 @@ public class VistaUsuario extends JFrame implements ActionListener {
 
 		switch (boton.getText()) {
 		case "Actualizar pedidos":
-			table = generarTabla(sesionUsuario);
+			table = generarTabla();
 			break;
 
 		case "Solicitar pedido":
 			newPedido();
 			break;
+		case "Actaulizar datos":
+			ActualizarUsuario au = new ActualizarUsuario(sesionUsuario);
+			setVisible(false);
+			au.setVisible(true);
+			break;
+		case "Mostrar datos":
+			JOptionPane.showMessageDialog(null, sesionUsuario.toString());
+			break;
+		case "Cancealr suscripcion":
+			int option = JOptionPane.showConfirmDialog(null,
+					"¿Estás seguro de que quieres cancelar tu suscripcion y borrar esta cuenta?",
+					"Confirmación cancelacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (option == JOptionPane.YES_OPTION) {
+				cs.deleteSus(cs.findByUserPK(sesionUsuario.getCodUsuario()));
+				cu.deleteUser(sesionUsuario);
+				setVisible(false);
+				Principal p = new Principal();
+				p.setVisible(true);
+			}
+			break;
 		}
 	}
 
-	public JTable generarTabla(Usuario usuario) {
+	/**
+	 * Metodo que r=genera una tabla coin la informacion necesaria de cada pedido
+	 * que ha realizado un uusario
+	 * 
+	 * @param usuario Objeto usuario con el que estamos trabajando en la ventana
+	 * @return Tab;la con todos los pedidos realizados por ese usaurio en cuestion
+	 */
+	public JTable generarTabla() {
 
 		String[] cabecera = { "Numero de pedido", "Usuario", "Dispensadora" };
 
 		ArrayList<Pedido> pedidos = new ArrayList<>();
 
-		pedidos = (ArrayList<Pedido>) cp.findByUser(usuario.getCodUsuario());
+		pedidos = (ArrayList<Pedido>) cp.findByUser(sesionUsuario.getCodUsuario());
 
 		Object[][] matriz = new Object[pedidos.size()][3];
 
@@ -150,6 +238,10 @@ public class VistaUsuario extends JFrame implements ActionListener {
 		return new JTable(matriz, cabecera);
 	}
 
+	/**
+	 * Metodo que gestiona el registro de un nuevo pedido, generado [por el usuario
+	 * de la ventana actual
+	 */
 	private void newPedido() {
 
 		Dispensadora dispensadoraPedido = new Dispensadora();
@@ -159,12 +251,12 @@ public class VistaUsuario extends JFrame implements ActionListener {
 
 		dispensadoraPedido.setTamanio((String) JOptionPane.showInputDialog(null, "Seleccione tamaño", "NUEVO PEDIDO", 0,
 				new ImageIcon("/imagenes/logo.png"), opciones, 1));
-		
+
 		nuevoPedido.setDispensadoras(dispensadoraPedido);
 		nuevoPedido.setUsuario(cu.findByPK(sesionUsuario.getCodUsuario()));
-		
+
 		cd.insertDis(dispensadoraPedido);
-		
+
 		cp.insertPed(nuevoPedido);
 	}
 }

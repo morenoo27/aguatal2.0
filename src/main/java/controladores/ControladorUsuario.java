@@ -2,7 +2,6 @@ package controladores;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -243,9 +242,15 @@ public class ControladorUsuario {
 	}
 
 	/**
+	 * Metodo que busca en la tabla 'usaurio' aquel que tenga ese nombre de usuario,
+	 * ya que es unico
 	 * 
-	 * @param usaurio
-	 * @return
+	 * <p>
+	 * En este caso se va a utilizar una nativeQuery, que permite pasar codigo SQL
+	 * directamente a la base de datos
+	 * 
+	 * @param usaurio Nombre de uusario que queremos buscar
+	 * @return Objeto Usuario con esas credenciales
 	 */
 	public Usuario findByUsuario(String usaurio) {
 
@@ -266,22 +271,5 @@ public class ControladorUsuario {
 		this.em.close();
 
 		return usuarioABusacar;
-	}
-
-	public static void main(String[] args) {
-
-//		ControladorUsuario cu = new ControladorUsuario();
-
-		recogerDatosUsuario().forEach(System.out::println);
-
-		recogerDatosUsuario().forEach(System.out::println);
-	}
-
-	private static ArrayList<Usuario> recogerDatosUsuario() {
-
-		ControladorUsuario cu = new ControladorUsuario();
-
-		return cu.findAll().stream().collect(Collectors.toCollection(ArrayList::new)); // conversion por stream a un
-																						// arraylist
 	}
 }

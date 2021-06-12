@@ -25,9 +25,7 @@ public class Dispensadora implements Serializable {
 	private String tamanio;
 
 	// bi-directional many-to-one association to Pedido
-	
-	@OneToOne(cascade = {CascadeType.PERSIST})
-	@JoinColumn(name = "codPedido", referencedColumnName = "codPedido", insertable = false, updatable = true)
+	@OneToOne(mappedBy = "dispensadora")
 	private Pedido pedido;
 
 	public Dispensadora() {

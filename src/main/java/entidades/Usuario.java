@@ -32,8 +32,7 @@ public class Usuario implements Serializable {
 
 	// bi-directional many-to-one association to Pedido
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codUsuario", referencedColumnName = "codUsuario", insertable = false, updatable = true)
+	@OneToMany(mappedBy = "usuario")
 	private List<Pedido> pedidos;
 
 	// bi-directional one-to-one association to Suscripcion

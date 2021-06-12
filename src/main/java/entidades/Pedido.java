@@ -19,11 +19,13 @@ public class Pedido implements Serializable {
 	private int codPedido;
 
 	// bi-directional many-to-one association to Usuario
-	@ManyToOne(fetch =  FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "codUsuario", referencedColumnName = "codUsuario", insertable = false, updatable = true)
 	private Usuario usuario;
 
 	// bi-directional many-to-one association to Dispensadora
-	@OneToOne(mappedBy = "pedido")
+	@OneToOne(cascade = {CascadeType.PERSIST})
+	@JoinColumn(name = "codDispensadora", referencedColumnName = "codDispensadora", insertable = false, updatable = true)
 	private Dispensadora dispensadora;
 
 	public Pedido() {

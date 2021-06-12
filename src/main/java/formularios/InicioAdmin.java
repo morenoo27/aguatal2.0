@@ -30,19 +30,13 @@ public class InicioAdmin extends JFrame implements ActionListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		EventQueue.invokeLater(new Runnable() {
-			
 			public void run() {
-				
 				try {
-					
 					InicioAdmin frame = new InicioAdmin();
-					
 					frame.setVisible(true);
-					
 				} catch (Exception e) {
-					
 					e.printStackTrace();
 				}
 			}
@@ -53,7 +47,7 @@ public class InicioAdmin extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public InicioAdmin() {
-		
+
 		setTitle("AGUATAL CORPORATION");
 
 		initComponents();
@@ -140,32 +134,22 @@ public class InicioAdmin extends JFrame implements ActionListener {
 		switch (boton.getText()) {
 
 		case "Entrar":
-
 			if (comprobarAdmin()) {
-				
-				JOptionPane.showMessageDialog(null, "holi");
-
+				VistaAdmin va = new VistaAdmin();
+				setVisible(false);
+				va.setVisible(true);
 			} else {
-				
-				//mensaje "intentelo de nuevo"
+				// mensaje "intentelo de nuevo"
 				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos\nIntentelo de nuevo");
-				
 			}
-
 			break;
 
 		case "<":
-
 			Principal prin = new Principal();
-
 			setVisible(false);
-
 			prin.setVisible(true);
-
 			break;
-			
 		}
-
 	}
 
 	/**
@@ -177,7 +161,6 @@ public class InicioAdmin extends JFrame implements ActionListener {
 	private boolean comprobarAdmin() {
 		
 		String condicion = "usuario";
-
 		return campoUsuario.getText().equals(condicion) && campoPass.getText().equals(condicion);
 	}
 
