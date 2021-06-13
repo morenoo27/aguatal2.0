@@ -37,20 +37,20 @@ public class Registro extends JFrame implements ActionListener {
 	private JTextField textDireccion;
 	private JButton comprobar;
 	private JButton ayudaUsuario;
-	private JTextField campUser;
-	private JTextField campNombre;
-	private JTextField campApellidos;
-	private JTextField campDireccion;
+	public JTextField campUser;
+	public JTextField campNombre;
+	public JTextField campApellidos;
+	public JTextField campDireccion;
 	private JLabel labelUsaurio;
 	private JTextField txtEmail;
-	private JTextField campEmail;
-	private JButton registrarse;
+	public JTextField campEmail;
+	public JButton registrarse;
 	private JTextField txtSeleccionaUnPlan;
 	private ButtonGroup grupoPlan;
-	private JPasswordField passwordField;
+	public JPasswordField passwordField;
 
-	private double[] precios;
-	private double sus;
+	public double[] precios;
+	public double sus;
 
 	/**
 	 * Launch the application.
@@ -246,7 +246,7 @@ public class Registro extends JFrame implements ActionListener {
 		contentPane.add(passwordField);
 
 //		instanciamos los precios
-		precios = new double[] { 5.99, 7.99, 9.99};
+		precios = new double[] { 5.99, 7.99, 9.99 };
 		sus = 0;
 
 	}
@@ -284,9 +284,9 @@ public class Registro extends JFrame implements ActionListener {
 			break;
 		}
 	}
-	
+
 //	JOptionPane.showMessageDialog(null, "");
-	
+
 	private void botones(Object o) {
 
 //		casting
@@ -318,11 +318,7 @@ public class Registro extends JFrame implements ActionListener {
 			break;
 
 		case "<":
-
-			Principal p = new Principal();
-
 			setVisible(false);
-			p.setVisible(true);
 
 			break;
 		}
@@ -337,7 +333,8 @@ public class Registro extends JFrame implements ActionListener {
 	 * insanciado segun los campos de textos de la vista
 	 * 
 	 * <p>
-	 * Acto seguido, con el controlador suscripcion se introduce la suscripcion ligada a ese usuario
+	 * Acto seguido, con el controlador suscripcion se introduce la suscripcion
+	 * ligada a ese usuario
 	 */
 	private void registrarUsuario() {
 
@@ -365,13 +362,8 @@ public class Registro extends JFrame implements ActionListener {
 			cs.insertSus(susUsuario);
 
 			if (cu.findByUsuario(nuevoUsuario.getUsuario()).getUsuario().equals(nuevoUsuario.getUsuario())) {
-
 				JOptionPane.showMessageDialog(null, "Se ha creado y registrado tu usuario correctamente");
-				
 				setVisible(false);
-				Principal p = new Principal();
-				p.setVisible(true);
-				
 			}
 		} else {
 			JOptionPane.showMessageDialog(null,

@@ -146,12 +146,8 @@ public class Principal extends JFrame implements ActionListener {
 		switch (boton.getText()) {
 
 		case "\u00BFAun no estas resgistrado?":
-
 			Registro r = new Registro();
-
-			setVisible(false);
 			r.setVisible(true);
-
 			break;
 
 		case "Acceder modo administrador":
