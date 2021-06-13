@@ -60,7 +60,7 @@ public class VistaUsuario extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					ControladorUsuario cu = new ControladorUsuario();
-					VistaUsuario frame = new VistaUsuario(cu.findByPK(1));
+					VistaUsuario frame = new VistaUsuario(cu.findByPK(2));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

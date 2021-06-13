@@ -2,7 +2,6 @@ package controladores;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,7 +11,6 @@ import javax.persistence.Query;
 
 import entidades.Dispensadora;
 
-
 public class ControladorDispensadora {
 
 	// Factoria para obtener objetos EntityManager
@@ -20,7 +18,12 @@ public class ControladorDispensadora {
 	private EntityManager em;
 	private Query consulta;
 
-	public void deleteDis(Dispensadora cli) {
+	/**
+	 * Metodo que elimina una dispensadora del sistema
+	 * 
+	 * @param dis Objeto dDispensadora que queremos eliminar
+	 */
+	public void deleteDis(Dispensadora dis) {
 
 		this.em = entityManagerFactory.createEntityManager();
 
@@ -28,8 +31,8 @@ public class ControladorDispensadora {
 
 		this.em.getTransaction().begin();
 
-		if (!this.em.contains(cli)) {
-			aux = this.em.merge(cli);
+		if (!this.em.contains(dis)) {
+			aux = this.em.merge(dis);
 		}
 
 		this.em.remove(aux);
@@ -39,6 +42,11 @@ public class ControladorDispensadora {
 		this.em.close();
 	}
 
+	/**
+	 * Metdo que elimina toda la tabal 'dispensadora' del sistema
+	 * 
+	 * @return numero de dispensadoras eliminadas
+	 */
 	public int deleteAll() {
 
 		EntityManager em2 = entityManagerFactory.createEntityManager();
@@ -63,32 +71,52 @@ public class ControladorDispensadora {
 		return numFilas;
 	}
 
-	public void modifyDIs(Dispensadora user) {
+	/**
+	 * Metodo para modificar una dispensadora creada en el sistema
+	 * 
+	 * @param dis Objeto dispensadora que queremos modificar (ya existenmte en la
+	 *            base de ddatos)
+	 */
+	public void modifyDIs(Dispensadora dis) {
 
 		this.em = entityManagerFactory.createEntityManager();
 
 		this.em.getTransaction().begin();
 
-		this.em.merge(user);
+		this.em.merge(dis);
 
 		this.em.getTransaction().commit();
 
 		this.em.close();
 	}
 
-	public void insertDis(Dispensadora user) {
+	/**
+	 * Metodo que inserta una dispensadiora nueva en al base de datos
+	 * 
+	 * @param dis Dispensadora que queremos insertar
+	 */
+	public void insertDis(Dispensadora dis) {
 
 		this.em = entityManagerFactory.createEntityManager();
 
 		this.em.getTransaction().begin();
 
-		this.em.persist(user);
+		this.em.persist(dis);
 
 		this.em.getTransaction().commit();
 
 		this.em.close();
 	}
 
+	/**
+	 * Metodo para inserta una cantidad de dispensadoras(metidas en una lista)
+	 * <p>
+	 * Este metodo realmente ejecuta el metodo insertar dispensadora individual pero
+	 * en cada dispensadora de la lista
+	 * 
+	 * @param suscripciones Lista de dispensadora a insertar
+	 * @return numero de dispensadoras introducidas
+	 */
 	public int insertDiss(ArrayList<Dispensadora> suscripciones) {
 
 		int numFilas = 0;
@@ -101,6 +129,11 @@ public class ControladorDispensadora {
 		return numFilas;
 	}
 
+	/**
+	 * metodo que devuelve todas las dispensadoraas metidas en el sistema
+	 * 
+	 * @return Lista con todas las dipensadoras
+	 */
 	public List<Dispensadora> findAll() {
 
 		this.em = entityManagerFactory.createEntityManager();
@@ -115,6 +148,12 @@ public class ControladorDispensadora {
 		return listaTrabajadores;
 	}
 
+	/**
+	 * Metodo que buisca una dispensadora en concreto. "La dispensadora con pk x"
+	 * 
+	 * @param pk Primary key de la dispensadora
+	 * @return Objeto dispensadora que estamos buscando
+	 */
 	public Dispensadora findByPK(int pk) {
 
 		try {
@@ -136,21 +175,5 @@ public class ControladorDispensadora {
 			System.out.println("No se encuentra el dato que se queire buscar");
 			return null;
 		}
-	}
-
-	public static void main(String[] args) {
-
-		ControladorDispensadora cd = new ControladorDispensadora();
-
-		Dispensadora d = new Dispensadora();
-		d.setTamanio("mediana");
-		d.setPedido(null);
-
-		cd.insertDis(d);
-		
-		ArrayList <Dispensadora> dispensadoras = cd.findAll().stream().collect(Collectors.toCollection(ArrayList::new));
-		dispensadoras.forEach(System.out::println);
-		
-		System.out.println(cd.findByPK(1).toString());
 	}
 }
