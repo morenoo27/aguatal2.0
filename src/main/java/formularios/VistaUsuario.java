@@ -80,17 +80,19 @@ public class VistaUsuario extends JFrame implements ActionListener {
 	}
 
 	private void initComponents() {
-//		Mensaje para asegurar la salida de la aplkicacion
+//		Mensaje para asegurar la salida de la aplicacion
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 
-				// Se pide una confirmación antes de finalizar el programa
-				int option = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que quieres cerrar sesion?",
-						"Confirmación de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				// Se pide una confirmaciï¿½n antes de finalizar el programa
+				int option = JOptionPane.showConfirmDialog(null, "Â¿Estas seguro de que quieres cerrar sesion?",
+						"Confirmacion de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (option == JOptionPane.YES_OPTION) {
 					System.exit(0);
+				} else if (option == JOptionPane.NO_OPTION) {
+					JOptionPane.showMessageDialog(null, "Cierre de sesion cancelado");
 				}
 			}
 		});
@@ -174,6 +176,11 @@ public class VistaUsuario extends JFrame implements ActionListener {
 		btnMostrarDatos.setBounds(372, 45, 154, 23);
 		btnMostrarDatos.addActionListener(this);
 		contentPane.add(btnMostrarDatos);
+		
+		JButton btnCancelarSuscripcion = new JButton("Cancelar suscripcion");
+		btnCancelarSuscripcion.setBounds(372, 80, 154, 23);
+		btnCancelarSuscripcion.addActionListener(this);
+		contentPane.add(btnCancelarSuscripcion);
 	}
 
 	@Override
@@ -183,7 +190,9 @@ public class VistaUsuario extends JFrame implements ActionListener {
 
 		switch (boton.getText()) {
 		case "Actualizar pedidos":
-			table = generarTabla();
+			VistaUsuario nuevaVista = new VistaUsuario(sesionUsuario);
+			setVisible(false);
+			nuevaVista.setVisible(true);
 			break;
 
 		case "Solicitar pedido":
@@ -197,10 +206,10 @@ public class VistaUsuario extends JFrame implements ActionListener {
 		case "Mostrar datos":
 			JOptionPane.showMessageDialog(null, sesionUsuario.toString());
 			break;
-		case "Cancealr suscripcion":
+		case "Cancelar suscripcion":
 			int option = JOptionPane.showConfirmDialog(null,
-					"¿Estás seguro de que quieres cancelar tu suscripcion y borrar esta cuenta?",
-					"Confirmación cancelacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					"Â¿Estas seguro de que quieres cancelar tu suscripcion y borrar esta cuenta?",
+					"Confirmacion de eliminacion de cuenta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (option == JOptionPane.YES_OPTION) {
 				cs.deleteSus(cs.findByUserPK(sesionUsuario.getCodUsuario()));
 				cu.deleteUser(sesionUsuario);
@@ -213,7 +222,7 @@ public class VistaUsuario extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Metodo que r=genera una tabla coin la informacion necesaria de cada pedido
+	 * Metodo que genera una tabla coin la informacion necesaria de cada pedido
 	 * que ha realizado un uusario
 	 * 
 	 * @param usuario Objeto usuario con el que estamos trabajando en la ventana
@@ -247,16 +256,22 @@ public class VistaUsuario extends JFrame implements ActionListener {
 		Dispensadora dispensadoraPedido = new Dispensadora();
 		Pedido nuevoPedido = new Pedido();
 
-		String[] opciones = { "Grande", "Mediana", "Pequeña" };
+		String[] opciones = { "Grande", "Mediana" };
 
-		dispensadoraPedido.setTamanio((String) JOptionPane.showInputDialog(null, "Seleccione tamaño", "NUEVO PEDIDO", 0,
+		dispensadoraPedido.setTamanio((String) JOptionPane.showInputDialog(null, "Seleccione tamaï¿½o", "NUEVO PEDIDO", 0,
 				new ImageIcon("/imagenes/logo.png"), opciones, 1));
-
+		
 		nuevoPedido.setDispensadoras(dispensadoraPedido);
-		nuevoPedido.setUsuario(cu.findByPK(sesionUsuario.getCodUsuario()));
-
-		cd.insertDis(dispensadoraPedido);
-
+		nuevoPedido.setUsuario(sesionUsuario);
+		
 		cp.insertPed(nuevoPedido);
+		//CHAPUZA
+//		COJO ESE PEDIDO
+		Pedido pedidoCorregido = cp.findByPK(cp.findAll().size());
+//		LO MODIFICO METIENDOLE LA DISPENSADORA Y EL CLIENTE
+		pedidoCorregido.setDispensadoras(cd.findByPK(cd.findAll().size()));
+		pedidoCorregido.setUsuario(sesionUsuario);
+		
+		cp.modifyPed(pedidoCorregido);
 	}
 }

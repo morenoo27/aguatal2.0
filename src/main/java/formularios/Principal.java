@@ -29,8 +29,10 @@ public class Principal extends JFrame implements ActionListener {
 	private JTextField txtUsuario;
 	private JTextField txtContrasea;
 	private JPasswordField passwordField;
-	
+
 	private Usuario usuario;
+	
+	private static ControladorUsuario cu = new ControladorUsuario();
 
 	/**
 	 * Launch the application.
@@ -52,13 +54,13 @@ public class Principal extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public Principal() {
-	
+
 		initComponents();
-		
+
 	}
 
 	private void initComponents() {
-		
+
 		setTitle("AGUATAL CORPORATION");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,7 +121,7 @@ public class Principal extends JFrame implements ActionListener {
 		registrar.setBounds(41, 202, 207, 23);
 		registrar.addActionListener(this);
 		panelCentral.add(registrar);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setBackground(Color.LIGHT_GRAY);
 		passwordField.setBounds(121, 126, 127, 19);
@@ -135,7 +137,7 @@ public class Principal extends JFrame implements ActionListener {
 		fondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/fondoYLogoAguatal.jpg")));
 		fondo.setBounds(0, 0, 676, 441);
 		contentPane.add(fondo);
-		
+
 	}
 
 	@Override
@@ -163,7 +165,8 @@ public class Principal extends JFrame implements ActionListener {
 		case "Iniciar Sesion":
 
 			if (comprobarUsuario()) {
-				
+
+				usuario = cu.findByUsuario(campoUsuario.getText());
 				VistaUsuario v = new VistaUsuario(usuario);
 				setVisible(false);
 				v.setVisible(true);
@@ -187,19 +190,16 @@ public class Principal extends JFrame implements ActionListener {
 	 */
 	private boolean comprobarUsuario() {
 
-		ControladorUsuario cu = new ControladorUsuario();
-
-//		mira si existe ese usuario		
-		if (cu.findAll().stream().anyMatch(user -> user.getUsuario().equals(campoUsuario.getText()))) {
-
-//			buscamos el usuario por el nombre de usuario
-			usuario = cu.findByUsuario(campoUsuario.getText());
+		try {
 			
+//			buscamos el usuario por el nombre de usuario
 //			si tienen la misma contrase�a...
-			if (usuario.getPass().equals(new String(passwordField.getPassword()))) {
-				return true;
-			}
+			
+			Usuario inicio = cu.findByUsuario(campoUsuario.getText());
+			return inicio.getPass().equals(new String(passwordField.getPassword()));
+
+		} catch (NullPointerException e) {
+			return false;
 		}
-		return false;
 	}
 }

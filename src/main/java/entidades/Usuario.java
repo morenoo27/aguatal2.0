@@ -167,7 +167,7 @@ public class Usuario implements Serializable {
 		return builder.toString();
 	}
 
-	private Object pedidos() {
+	private String pedidos() {
 		
 		if (!this.pedidos.isEmpty()) {
 			String txt = "";
@@ -179,7 +179,7 @@ public class Usuario implements Serializable {
 			return txt;
 		}
 		
-		return ", ";
+		return "";
 	}
 
 }

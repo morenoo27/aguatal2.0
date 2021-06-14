@@ -84,9 +84,9 @@ public class VistaAdmin extends JFrame implements ActionListener {
 			@Override
 			public void windowClosing(WindowEvent e) {
 
-				// Se pide una confirmación antes de finalizar el programa
-				int option = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que quieres cerrar sesion?",
-						"Confirmación de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				// Se pide una confirmaciï¿½n antes de finalizar el programa
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Estï¿½s seguro de que quieres cerrar sesion?",
+						"Confirmaciï¿½n de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (option == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
@@ -227,15 +227,20 @@ public class VistaAdmin extends JFrame implements ActionListener {
 			break;
 		case "ELIMINAR SISTEMA":
 
-			// Se pide una confirmación antes de finalizar el programa
+			// Se pide una confirmaciï¿½n antes de finalizar el programa
 			int option = JOptionPane.showConfirmDialog(null,
-					"¿Estás seguro de que quieres eliminar TODO el sistema?" + "\nNo habra vuelta atras",
-					"Confirmación de borrado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					"ï¿½Estï¿½s seguro de que quieres eliminar TODO el sistema?" + "\nNo habra vuelta atras",
+					"Confirmaciï¿½n de borrado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (option == JOptionPane.YES_OPTION) {
-				cu.deleteAll();
-				cs.deleteAll();
-				cp.deleteAll();
-				cd.deleteAll();
+				System.out.println("Se han eliminado:\n"
+						+ cu.deleteAll() + " usuarios\n"
+						+ cs.deleteAll() + " suscripciones\n"
+						+ cp.deleteAll() + " pedidos\n"
+						+ cd.deleteAll() + " dispensadoras\n");
+				
+				
+				
+				
 			}
 
 			break;

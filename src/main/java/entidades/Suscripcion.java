@@ -26,7 +26,6 @@ public class Suscripcion implements Serializable {
 	// bi-directional one-to-one association to Usuario
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "codUsuario", referencedColumnName = "codUsuario")
-	
 //	@OneToOne( cascade =  { CascadeType.PERSIST } )
 //	@JoinColumn(name = "codUsuario", referencedColumnName = "codUsuario")
 	private Usuario usuario;
