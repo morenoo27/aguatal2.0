@@ -29,9 +29,16 @@ public class Principal extends JFrame implements ActionListener {
 	private JTextField txtUsuario;
 	private JTextField txtContrasea;
 	private JPasswordField passwordField;
+	private JPanel panelCentral;
+	private JTextPane mensajeBienvenida;
+	private JSeparator separator;
+	private JButton iniciarSesion;
+	private JButton registrar;
+	private JButton botonAdmin;
+	private JLabel fondo;
 
 	private Usuario usuario;
-	
+
 	private static ControladorUsuario cu = new ControladorUsuario();
 
 	/**
@@ -70,31 +77,31 @@ public class Principal extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panelCentral = new JPanel();
+		panelCentral = new JPanel();
 		panelCentral.setBackground(Color.WHITE);
 		panelCentral.setBounds(206, 102, 276, 236);
-		contentPane.add(panelCentral);
 		panelCentral.setLayout(null);
+		contentPane.add(panelCentral);
 
 		campoUsuario = new JTextField();
 		campoUsuario.setForeground(Color.BLACK);
 		campoUsuario.setBackground(Color.LIGHT_GRAY);
 		campoUsuario.setBounds(121, 84, 127, 20);
 		campoUsuario.setBorder(null);
-		panelCentral.add(campoUsuario);
 		campoUsuario.setColumns(10);
+		panelCentral.add(campoUsuario);
 
-		JTextPane mensajeBienvenida = new JTextPane();
+		mensajeBienvenida = new JTextPane();
 		mensajeBienvenida.setBounds(62, 11, 167, 23);
 		mensajeBienvenida.setText(" Bienvenido! Inicie Sesion");
 		mensajeBienvenida.setEditable(false);
 		panelCentral.add(mensajeBienvenida);
 
-		JSeparator separator = new JSeparator();
+		separator = new JSeparator();
 		separator.setBounds(10, 41, 251, 2);
 		panelCentral.add(separator);
 
-		JButton iniciarSesion = new JButton("Iniciar Sesion");
+		iniciarSesion = new JButton("Iniciar Sesion");
 		iniciarSesion.setBounds(83, 168, 120, 23);
 		iniciarSesion.addActionListener(this);
 		panelCentral.add(iniciarSesion);
@@ -105,8 +112,8 @@ public class Principal extends JFrame implements ActionListener {
 		txtUsuario.setBounds(41, 84, 70, 20);
 		txtUsuario.setEditable(false);
 		txtUsuario.setBorder(null);
-		panelCentral.add(txtUsuario);
 		txtUsuario.setColumns(10);
+		panelCentral.add(txtUsuario);
 
 		txtContrasea = new JTextField();
 		txtContrasea.setBackground(Color.WHITE);
@@ -114,10 +121,10 @@ public class Principal extends JFrame implements ActionListener {
 		txtContrasea.setBounds(25, 126, 86, 20);
 		txtContrasea.setEditable(false);
 		txtContrasea.setBorder(null);
-		panelCentral.add(txtContrasea);
 		txtContrasea.setColumns(10);
+		panelCentral.add(txtContrasea);
 
-		JButton registrar = new JButton("\u00BFAun no estas resgistrado?");
+		registrar = new JButton("\u00BFAun no estas resgistrado?");
 		registrar.setBounds(41, 202, 207, 23);
 		registrar.addActionListener(this);
 		panelCentral.add(registrar);
@@ -128,12 +135,12 @@ public class Principal extends JFrame implements ActionListener {
 		passwordField.setBorder(null);
 		panelCentral.add(passwordField);
 
-		JButton botonAdmin = new JButton("Acceder modo administrador");
+		botonAdmin = new JButton("Acceder modo administrador");
 		botonAdmin.setBounds(463, 407, 203, 23);
 		botonAdmin.addActionListener(this);
 		contentPane.add(botonAdmin);
 
-		JLabel fondo = new JLabel();
+		fondo = new JLabel();
 		fondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/fondoYLogoAguatal.jpg")));
 		fondo.setBounds(0, 0, 676, 441);
 		contentPane.add(fondo);
@@ -191,10 +198,10 @@ public class Principal extends JFrame implements ActionListener {
 	private boolean comprobarUsuario() {
 
 		try {
-			
+
 //			buscamos el usuario por el nombre de usuario
 //			si tienen la misma contrase�a...
-			
+
 			Usuario inicio = cu.findByUsuario(campoUsuario.getText());
 			return inicio.getPass().equals(new String(passwordField.getPassword()));
 

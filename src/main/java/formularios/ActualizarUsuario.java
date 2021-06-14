@@ -25,6 +25,7 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 	private static ControladorUsuario cu = new ControladorUsuario();
 
 	private JPanel contentPane;
+	private JPanel panelCentral;
 	private JTextField txtMensajeBienbenidaEquipo;
 	private JTextField textusaurio;
 	private JTextField txtContrasea;
@@ -33,6 +34,7 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 	private JTextField textDireccion;
 	private JButton comprobar;
 	private JButton ayudaUsuario;
+	private JButton botonVolver;
 	private JTextField campUser;
 	private JTextField campNombre;
 	private JTextField campApellidos;
@@ -42,11 +44,10 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 	private JTextField campEmail;
 	private JButton registrarse;
 	private JPasswordField passwordField;
-
 	private Usuario sesionUsuario;
 
 	/**
-	 * Launch the application.
+	 * Main para pruebas Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -68,6 +69,11 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 
 		sesionUsuario = usaurio;
 
+		initComponents();
+	}
+
+	private void initComponents() {
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 477, 414);
 		contentPane = new JPanel();
@@ -75,21 +81,21 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panelCentral = new JPanel();
+		panelCentral = new JPanel();
 		panelCentral.setBackground(SystemColor.activeCaption);
 		panelCentral.setBounds(10, 36, 440, 65);
-		contentPane.add(panelCentral);
 		panelCentral.setLayout(null);
+		contentPane.add(panelCentral);
 
 		txtMensajeBienbenidaEquipo = new JTextField();
 		txtMensajeBienbenidaEquipo.setBackground(SystemColor.activeCaption);
 		txtMensajeBienbenidaEquipo.setEditable(false);
 		txtMensajeBienbenidaEquipo.setText("mensaje bienvenida equipo directivo");
 		txtMensajeBienbenidaEquipo.setBounds(0, 0, 440, 20);
-		panelCentral.add(txtMensajeBienbenidaEquipo);
 		txtMensajeBienbenidaEquipo.setColumns(10);
+		panelCentral.add(txtMensajeBienbenidaEquipo);
 
-		JButton botonVolver = new JButton("Cancelar");
+		botonVolver = new JButton("Cancelar");
 		botonVolver.addActionListener(this);
 		botonVolver.setBounds(10, 11, 91, 20);
 		contentPane.add(botonVolver);
@@ -115,8 +121,8 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 		textNombre.setText("          Nombre:");
 		textNombre.setEditable(false);
 		textNombre.setBounds(64, 204, 86, 20);
-		contentPane.add(textNombre);
 		textNombre.setColumns(10);
+		contentPane.add(textNombre);
 
 		textApellidos = new JTextField();
 		textApellidos.setBackground(Color.WHITE);
@@ -202,25 +208,31 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		
-		JButton boton = (JButton)  e.getSource();
+		JButton boton = (JButton) e.getSource();
 
 		switch (boton.getText()) {
 
 		case "?":
+
 			JOptionPane.showMessageDialog(null,
 					"El usaurio debe ser unico, por lo tanto para asegurarnos de que el usuario que ha elegido es unico \n debe pulsar en comprobar para asegurarse de que es unico\n"
 							+ "Una vez el usuario sea unico saldra un tick verde de confirmacion\n\n"
 							+ "Ademas, para generar la contrase�a, debe saber que cuanto mas larga, mas segura sera");
 			break;
+
 		case "Comprobar":
+
 //			comprobacion
 			botonComprobar();
 			break;
+
 		case "Actualizar":
+
 			actualizarUsuaio();
 			break;
+
 		case "Cancelar":
+
 			VistaUsuario vu = new VistaUsuario(sesionUsuario);
 			setVisible(false);
 			vu.setVisible(true);
@@ -229,11 +241,14 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 
 	}
 
-	//PREGUNTA POR QUE SE ME PONE TODO A ""
+	/**
+	 * Metodo que almacena los nuevos campos (si los hay) sobre un usuario para
+	 * actualziarlo y mantener los valores que no s evan a actualizar (uno de ellos
+	 * que nunca se va a modificar es la clave primaria)
+	 */
 	private void actualizarUsuaio() {
 
-
-		// PREGUNTAR
+//		si el texto del campo NO es vacio...
 		if (!(campUser.getText().equals(""))) {
 			sesionUsuario.setUsuario(campUser.getText());
 		}
@@ -265,7 +280,7 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 		if (cu.findByUsuario(sesionUsuario.getUsuario()).getUsuario().equals(sesionUsuario.getUsuario())) {
 
 			JOptionPane.showMessageDialog(null, "Tu usuario se ha actualizado correctamente");
-			
+
 			setVisible(false);
 			VistaUsuario p = new VistaUsuario(sesionUsuario);
 			p.setVisible(true);

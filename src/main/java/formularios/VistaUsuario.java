@@ -40,7 +40,7 @@ public class VistaUsuario extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField textField;
+	private JTextField mensajePedidos;
 	private JTextField txtBienvenidoDeNuevo;
 	private JTextField txtSus;
 	private JButton btnActualizarUsuario;
@@ -51,8 +51,10 @@ public class VistaUsuario extends JFrame implements ActionListener {
 	private JButton btnNPedido;
 	private JButton btnActualizarPedido;
 	private JLabel lblLogo;
+	private JButton btnCancelarSuscripcion;
 
 	/**
+	 * Main para pruebas
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -60,7 +62,7 @@ public class VistaUsuario extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					ControladorUsuario cu = new ControladorUsuario();
-					VistaUsuario frame = new VistaUsuario(cu.findByPK(2));
+					VistaUsuario frame = new VistaUsuario(cu.findByPK(1));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -87,7 +89,7 @@ public class VistaUsuario extends JFrame implements ActionListener {
 			public void windowClosing(WindowEvent e) {
 
 				// Se pide una confirmaci�n antes de finalizar el programa
-				int option = JOptionPane.showConfirmDialog(null, "¿Estas seguro de que quieres cerrar sesion?",
+				int option = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres cerrar sesion?",
 						"Confirmacion de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (option == JOptionPane.YES_OPTION) {
 					System.exit(0);
@@ -142,14 +144,14 @@ public class VistaUsuario extends JFrame implements ActionListener {
 		btnActualizarPedido.addActionListener(this);
 		contentPane.add(btnActualizarPedido);
 
-		textField = new JTextField();
-		textField.setText("  Pedidos solicitados por usted:");
-		textField.setColumns(10);
-		textField.setBorder(null);
-		textField.setBounds(12, 158, 176, 20);
-		textField.setBorder(null);
-		textField.setEditable(false);
-		contentPane.add(textField);
+		mensajePedidos = new JTextField();
+		mensajePedidos.setText("  Pedidos solicitados por usted:");
+		mensajePedidos.setColumns(10);
+		mensajePedidos.setBorder(null);
+		mensajePedidos.setBounds(12, 158, 176, 20);
+		mensajePedidos.setBorder(null);
+		mensajePedidos.setEditable(false);
+		contentPane.add(mensajePedidos);
 		contentPane.add(lblPedidos);
 
 		lblLogo = new JLabel();
@@ -177,19 +179,23 @@ public class VistaUsuario extends JFrame implements ActionListener {
 		btnMostrarDatos.addActionListener(this);
 		contentPane.add(btnMostrarDatos);
 		
-		JButton btnCancelarSuscripcion = new JButton("Cancelar suscripcion");
+		btnCancelarSuscripcion = new JButton("Cancelar suscripcion");
 		btnCancelarSuscripcion.setBounds(372, 80, 154, 23);
 		btnCancelarSuscripcion.addActionListener(this);
 		contentPane.add(btnCancelarSuscripcion);
 	}
 
+//	ACCIONES DE LOS BOTONES
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		JButton boton = (JButton) e.getSource();
 
 		switch (boton.getText()) {
+		
 		case "Actualizar pedidos":
+			
+//			ocultamos y creamos la pantalla de nuevo
 			VistaUsuario nuevaVista = new VistaUsuario(sesionUsuario);
 			setVisible(false);
 			nuevaVista.setVisible(true);
@@ -198,18 +204,26 @@ public class VistaUsuario extends JFrame implements ActionListener {
 		case "Solicitar pedido":
 			newPedido();
 			break;
+			
 		case "Actaulizar datos":
+			
 			ActualizarUsuario au = new ActualizarUsuario(sesionUsuario);
 			setVisible(false);
 			au.setVisible(true);
 			break;
+			
 		case "Mostrar datos":
+			
 			JOptionPane.showMessageDialog(null, sesionUsuario.toString());
 			break;
+			
 		case "Cancelar suscripcion":
+			
+//			preguntamos si queremos eliminar la cuentaa, apra asegurarnos de la accion
 			int option = JOptionPane.showConfirmDialog(null,
 					"¿Estas seguro de que quieres cancelar tu suscripcion y borrar esta cuenta?",
 					"Confirmacion de eliminacion de cuenta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//			si la queremos eliminar seguros, eliminamos la cuenta y volvemos a la pantalla principal
 			if (option == JOptionPane.YES_OPTION) {
 				cs.deleteSus(cs.findByUserPK(sesionUsuario.getCodUsuario()));
 				cu.deleteUser(sesionUsuario);

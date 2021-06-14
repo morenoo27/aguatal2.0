@@ -51,6 +51,7 @@ public class VistaAdmin extends JFrame implements ActionListener {
 	private JTextField txtPedidosenElSistema;
 	private JButton btnSistema;
 	private JButton btnTODO;
+	private JButton btnNewButton;
 
 	private static ControladorUsuario cu = new ControladorUsuario();
 	private static ControladorPedido cp = new ControladorPedido();
@@ -77,6 +78,12 @@ public class VistaAdmin extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public VistaAdmin() {
+		
+		initComponents();
+	}
+
+	private void initComponents() {
+		
 		setResizable(false);
 //		Mensaje para asegurar la salida de la aplkicacion
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -85,8 +92,8 @@ public class VistaAdmin extends JFrame implements ActionListener {
 			public void windowClosing(WindowEvent e) {
 
 				// Se pide una confirmaci�n antes de finalizar el programa
-				int option = JOptionPane.showConfirmDialog(null, "�Est�s seguro de que quieres cerrar sesion?",
-						"Confirmaci�n de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				int option = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres cerrar sesion?",
+						"Confirmacion de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (option == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
@@ -100,8 +107,8 @@ public class VistaAdmin extends JFrame implements ActionListener {
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
 		txtBienvenidoDeNuevo = new JTextField();
 		txtBienvenidoDeNuevo.setText(" Bienvenido de nuevo admin");
@@ -191,7 +198,7 @@ public class VistaAdmin extends JFrame implements ActionListener {
 		btnSistema.addActionListener(this);
 		contentPane.add(btnSistema);
 
-		JButton btnNewButton = new JButton("Crear usuario");
+		btnNewButton = new JButton("Crear usuario");
 		btnNewButton.addActionListener(this);
 		btnNewButton.setBounds(235, 54, 139, 23);
 		contentPane.add(btnNewButton);
@@ -201,6 +208,7 @@ public class VistaAdmin extends JFrame implements ActionListener {
 		btnTODO.setBounds(370, 11, 168, 23);
 		btnTODO.addActionListener(this);
 		contentPane.add(btnTODO);
+		
 	}
 
 	@Override
@@ -217,30 +225,19 @@ public class VistaAdmin extends JFrame implements ActionListener {
 		case "Crear usuario":
 			Registro r = new Registro();
 			r.setVisible(true);
-			r.registrarse.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					r.setVisible(false);
-				}
-			});
 			break;
 		case "ELIMINAR SISTEMA":
 
 			// Se pide una confirmaci�n antes de finalizar el programa
 			int option = JOptionPane.showConfirmDialog(null,
-					"�Est�s seguro de que quieres eliminar TODO el sistema?" + "\nNo habra vuelta atras",
-					"Confirmaci�n de borrado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					"Estas seguro de que quieres eliminar TODO el sistema?" + "\nNo habra vuelta atras",
+					"Confirmacion de borrado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (option == JOptionPane.YES_OPTION) {
 				System.out.println("Se han eliminado:\n"
 						+ cu.deleteAll() + " usuarios\n"
 						+ cs.deleteAll() + " suscripciones\n"
 						+ cp.deleteAll() + " pedidos\n"
 						+ cd.deleteAll() + " dispensadoras\n");
-				
-				
-				
-				
 			}
 
 			break;
@@ -249,12 +246,17 @@ public class VistaAdmin extends JFrame implements ActionListener {
 
 	}
 
+	/**
+	 * Genera la tabla que muestra los pedidos
+	 * 
+	 * @return tabla con los pedidos
+	 */
 	private JTable tablaPedidos() {
 		String[] cabecera = { "Numero de pedido", "Usuario", "Dispensadora" };
 
 		ArrayList<Pedido> pedidos = new ArrayList<>();
 
-		pedidos = (ArrayList<Pedido>) cp.findAll().stream().collect(Collectors.toCollection(ArrayList::new));
+		pedidos = (ArrayList<Pedido>) cp.findAll().stream().collect(Collectors.toCollection(ArrayList::new));//obtengo todos los pedidos
 
 		if (pedidos.isEmpty()) {
 			Object[][] matriz = new Object[1][3];
@@ -263,11 +265,12 @@ public class VistaAdmin extends JFrame implements ActionListener {
 			matriz[0][1] = "-";
 			matriz[0][2] = "-";
 
-			return new JTable(matriz, cabecera);
+			return new JTable(matriz, cabecera);//amtriz solo con "-"
 		}
 
-		Object[][] matriz = new Object[pedidos.size()][3];
+		Object[][] matriz = new Object[pedidos.size()][3];//matriz con n filas y 3 columnas
 
+		//relleno de la matriz
 		for (int i = 0; i < matriz.length; i++) {
 			matriz[i][0] = pedidos.get(i).getCodPedido();
 
@@ -283,15 +286,20 @@ public class VistaAdmin extends JFrame implements ActionListener {
 				matriz[i][2] = "NULL";
 			}
 		}
-		return new JTable(matriz, cabecera);
+		return new JTable(matriz, cabecera);//matriz con cada pedido encajado en cada zelda correspondiente
 	}
 
+	/**
+	 * Genera la tabla que muestra las suscripciones
+	 * 
+	 * @return tabla con las suscripciones
+	 */
 	private JTable tablaSuscripciones() {
 		String[] cabecera = { "Numero de suscripcion", "Precio", "Usuario" };
 
 		ArrayList<Suscripcion> suscripciones = new ArrayList<>();
 
-		suscripciones = (ArrayList<Suscripcion>) cs.findAll().stream().collect(Collectors.toCollection(ArrayList::new));
+		suscripciones = (ArrayList<Suscripcion>) cs.findAll().stream().collect(Collectors.toCollection(ArrayList::new));//obtengo todas las suscripciones
 
 		if (suscripciones.isEmpty()) {
 			Object[][] matriz = new Object[1][3];
@@ -300,11 +308,12 @@ public class VistaAdmin extends JFrame implements ActionListener {
 			matriz[0][1] = "-";
 			matriz[0][2] = "-";
 
-			return new JTable(matriz, cabecera);
+			return new JTable(matriz, cabecera);//amtriz solo con "-"
 		}
 
-		Object[][] matriz = new Object[suscripciones.size()][3];
-
+		Object[][] matriz = new Object[suscripciones.size()][3];//matriz con n filas y 3 columnas
+		
+		//relleno de la matriz
 		for (int i = 0; i < matriz.length; i++) {
 			matriz[i][0] = suscripciones.get(i).getCodSuscripcion();
 			matriz[i][1] = suscripciones.get(i).getPrecioMensual();
@@ -315,9 +324,14 @@ public class VistaAdmin extends JFrame implements ActionListener {
 			}
 		}
 
-		return new JTable(matriz, cabecera);
+		return new JTable(matriz, cabecera);//matriz con cada suscripcion encajada en cada zelda correspondiente
 	}
 
+	/**
+	 * Genera la tabla que muestra los clientes
+	 * 
+	 * @return tabla con los clientes
+	 */
 	private JTable tablaClientes() {
 		String[] cabecera = { "Numero de usurio", "Usuario", "Contrasenia", "Nombre", "Apellidos", "Direccion",
 				"Email" };
@@ -340,8 +354,9 @@ public class VistaAdmin extends JFrame implements ActionListener {
 			return new JTable(matriz, cabecera);
 		}
 
-		Object[][] matriz = new Object[usuarios.size()][7];
+		Object[][] matriz = new Object[usuarios.size()][7];//matriz con n filas y 7 columnas
 
+		//relleno de la matriz
 		for (int i = 0; i < matriz.length; i++) {
 			matriz[i][0] = usuarios.get(i).getCodUsuario();
 			matriz[i][1] = usuarios.get(i).getUsuario();
@@ -352,6 +367,6 @@ public class VistaAdmin extends JFrame implements ActionListener {
 			matriz[i][6] = usuarios.get(i).getEmail();
 		}
 
-		return new JTable(matriz, cabecera);
+		return new JTable(matriz, cabecera);//matriz con cada usuario encajado en cada zelda correspondiente
 	}
 }

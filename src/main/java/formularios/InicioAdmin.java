@@ -21,10 +21,15 @@ import java.awt.event.ActionEvent;
 public class InicioAdmin extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
+	private JPanel panelCentral;
 	private JTextField campoUsuario;
 	private JTextField campoPass;
 	private JTextField txtUsuario;
 	private JTextField txtContrasea;
+	private JSeparator separator;
+	private JButton iniciarSesion;
+	private JButton botonVolver;
+	private JLabel fondo;
 
 	/**
 	 * Launch the application.
@@ -48,8 +53,6 @@ public class InicioAdmin extends JFrame implements ActionListener {
 	 */
 	public InicioAdmin() {
 
-		setTitle("AGUATAL CORPORATION");
-
 		initComponents();
 	}
 
@@ -57,18 +60,21 @@ public class InicioAdmin extends JFrame implements ActionListener {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 692, 480);
+		
+		setTitle("AGUATAL CORPORATION");
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
-		JPanel panelCentral = new JPanel();
+		panelCentral = new JPanel();
 		panelCentral.setBackground(Color.WHITE);
 		panelCentral.setBounds(220, 136, 238, 144);
-		contentPane.add(panelCentral);
 		panelCentral.setLayout(null);
+		contentPane.add(panelCentral);
 
-		JSeparator separator = new JSeparator();
+		separator = new JSeparator();
 		separator.setForeground(Color.BLACK);
 		separator.setBackground(Color.GRAY);
 		separator.setBounds(10, 45, 266, 0);
@@ -90,7 +96,7 @@ public class InicioAdmin extends JFrame implements ActionListener {
 		panelCentral.add(campoPass);
 		campoPass.setColumns(10);
 
-		JButton iniciarSesion = new JButton("Entrar");
+		iniciarSesion = new JButton("Entrar");
 		iniciarSesion.setBounds(68, 110, 120, 23);
 		iniciarSesion.addActionListener(this);
 		panelCentral.add(iniciarSesion);
@@ -113,13 +119,13 @@ public class InicioAdmin extends JFrame implements ActionListener {
 		panelCentral.add(txtContrasea);
 		txtContrasea.setColumns(10);
 
-		JButton botonVolver = new JButton("<");
+		botonVolver = new JButton("<");
 		botonVolver.addActionListener(this);
 		botonVolver.setBounds(10, 407, 48, 23);
 		botonVolver.addActionListener(this);
 		contentPane.add(botonVolver);
 
-		JLabel fondo = new JLabel();
+		fondo = new JLabel();
 		fondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/fondoYLogoAguatal.jpg")));
 		fondo.setBounds(0, 0, 676, 441);
 		contentPane.add(fondo);

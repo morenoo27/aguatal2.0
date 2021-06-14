@@ -28,7 +28,10 @@ import javax.swing.JPasswordField;
 @SuppressWarnings("serial")
 public class Registro extends JFrame implements ActionListener {
 
+	private static ControladorUsuario cu = new ControladorUsuario();
+	
 	private JPanel contentPane;
+	private JPanel panelCentral;
 	private JTextField txtMensajeBienbenidaEquipo;
 	private JTextField textusaurio;
 	private JTextField txtContrasea;
@@ -37,20 +40,23 @@ public class Registro extends JFrame implements ActionListener {
 	private JTextField textDireccion;
 	private JButton comprobar;
 	private JButton ayudaUsuario;
-	public JTextField campUser;
-	public JTextField campNombre;
-	public JTextField campApellidos;
-	public JTextField campDireccion;
+	private JButton botonVolver;
 	private JLabel labelUsaurio;
 	private JTextField txtEmail;
-	public JTextField campEmail;
-	public JButton registrarse;
 	private JTextField txtSeleccionaUnPlan;
 	private ButtonGroup grupoPlan;
-	public JPasswordField passwordField;
-
-	public double[] precios;
-	public double sus;
+	private JRadioButton precio1;
+	private JRadioButton precio2;
+	private JRadioButton precio3;
+	private JTextField campUser;
+	private JPasswordField passwordField;
+	private JTextField campNombre;
+	private JTextField campApellidos;
+	private JTextField campDireccion;
+	private JTextField campEmail;
+	private JButton registrarse;
+	private double[] precios;
+	private double sus;
 
 	/**
 	 * Launch the application.
@@ -80,8 +86,6 @@ public class Registro extends JFrame implements ActionListener {
 	 */
 	public Registro() {
 
-		setTitle("AGUATAL CORPORATION");
-
 		initComponents();
 	}
 
@@ -89,26 +93,29 @@ public class Registro extends JFrame implements ActionListener {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 476, 579);
+
+		setTitle("AGUATAL CORPORATION");
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
-		JPanel panelCentral = new JPanel();
+		panelCentral = new JPanel();
 		panelCentral.setBackground(SystemColor.activeCaption);
 		panelCentral.setBounds(10, 36, 440, 65);
-		contentPane.add(panelCentral);
 		panelCentral.setLayout(null);
+		contentPane.add(panelCentral);
 
 		txtMensajeBienbenidaEquipo = new JTextField();
 		txtMensajeBienbenidaEquipo.setBackground(SystemColor.activeCaption);
 		txtMensajeBienbenidaEquipo.setEditable(false);
 		txtMensajeBienbenidaEquipo.setText("mensaje bienvenida equipo directivo");
 		txtMensajeBienbenidaEquipo.setBounds(0, 0, 440, 20);
-		panelCentral.add(txtMensajeBienbenidaEquipo);
 		txtMensajeBienbenidaEquipo.setColumns(10);
+		panelCentral.add(txtMensajeBienbenidaEquipo);
 
-		JButton botonVolver = new JButton("<");
+		botonVolver = new JButton("<");
 		botonVolver.addActionListener(this);
 		botonVolver.setBounds(10, 11, 48, 23);
 		contentPane.add(botonVolver);
@@ -118,40 +125,40 @@ public class Registro extends JFrame implements ActionListener {
 		textusaurio.setEditable(false);
 		textusaurio.setText("           Usuario:");
 		textusaurio.setBounds(64, 142, 86, 20);
-		contentPane.add(textusaurio);
 		textusaurio.setColumns(10);
+		contentPane.add(textusaurio);
 
 		txtContrasea = new JTextField();
 		txtContrasea.setBackground(Color.WHITE);
 		txtContrasea.setEditable(false);
 		txtContrasea.setText("    Contrase\u00F1a:");
 		txtContrasea.setBounds(64, 173, 86, 20);
-		contentPane.add(txtContrasea);
 		txtContrasea.setColumns(10);
+		contentPane.add(txtContrasea);
 
 		textNombre = new JTextField();
 		textNombre.setBackground(Color.WHITE);
 		textNombre.setText("          Nombre:");
 		textNombre.setEditable(false);
 		textNombre.setBounds(64, 204, 86, 20);
-		contentPane.add(textNombre);
 		textNombre.setColumns(10);
+		contentPane.add(textNombre);
 
 		textApellidos = new JTextField();
 		textApellidos.setBackground(Color.WHITE);
 		textApellidos.setText("        Apellidos:");
 		textApellidos.setEditable(false);
 		textApellidos.setBounds(64, 235, 86, 20);
-		contentPane.add(textApellidos);
 		textApellidos.setColumns(10);
+		contentPane.add(textApellidos);
 
 		textDireccion = new JTextField();
 		textDireccion.setBackground(Color.WHITE);
 		textDireccion.setEditable(false);
 		textDireccion.setText("        Direccion:");
 		textDireccion.setBounds(64, 266, 86, 20);
-		contentPane.add(textDireccion);
 		textDireccion.setColumns(10);
+		contentPane.add(textDireccion);
 
 		comprobar = new JButton("Comprobar");
 		comprobar.setBounds(277, 142, 118, 20);
@@ -212,17 +219,17 @@ public class Registro extends JFrame implements ActionListener {
 		registrarse.addActionListener(this);
 		contentPane.add(registrarse);
 
-		JRadioButton precio1 = new JRadioButton("Plan basico");
+		precio1 = new JRadioButton("Plan basico");
 		precio1.setBounds(28, 392, 109, 23);
 		precio1.addActionListener(this);
 		contentPane.add(precio1);
 
-		JRadioButton precio2 = new JRadioButton("Plan premium");
+		precio2 = new JRadioButton("Plan premium");
 		precio2.setBounds(160, 392, 109, 23);
 		precio2.addActionListener(this);
 		contentPane.add(precio2);
 
-		JRadioButton precio3 = new JRadioButton("Plan Nova");
+		precio3 = new JRadioButton("Plan Nova");
 		precio3.setBounds(294, 392, 109, 23);
 		precio3.addActionListener(this);
 		contentPane.add(precio3);
@@ -267,13 +274,14 @@ public class Registro extends JFrame implements ActionListener {
 
 	}
 
+//	PARA LOS BOTONES RADIO
 	private void botonesRadio(Object o) {
 
+//		casting
 		JRadioButton radio = (JRadioButton) o;
 
 		switch (radio.getText()) {
 		case "Plan basico":
-
 			sus = precios[0];
 			break;
 		case "Plan premium":
@@ -285,8 +293,7 @@ public class Registro extends JFrame implements ActionListener {
 		}
 	}
 
-//	JOptionPane.showMessageDialog(null, "");
-
+//	PARA LOS BOTONES NORMALES
 	private void botones(Object o) {
 
 //		casting
@@ -300,26 +307,23 @@ public class Registro extends JFrame implements ActionListener {
 					"El usaurio debe ser unico, por lo tanto para asegurarnos de que el usuario que ha elegido es unico \n debe pulsar en comprobar para asegurarse de que es unico\n"
 							+ "Una vez el usuario sea unico saldra un tick verde de confirmacion\n\n"
 							+ "Ademas, para generar la contraseï¿½a, debe saber que cuanto mas larga, mas segura sera");
-
 			break;
 
 		case "Comprobar":
 
 //			comprobacion
 			botonComprobar();
-
 			break;
 
 		case "Registrarse":
 
 			// crear el usaurio en la base de datos
 			registrarUsuario();
-
 			break;
 
 		case "<":
+			
 			setVisible(false);
-
 			break;
 		}
 
@@ -410,11 +414,6 @@ public class Registro extends JFrame implements ActionListener {
 	 * @return true (no encuentra coincidencias) | false(existe coincidencia)
 	 */
 	private boolean comprobar() {
-
-//		Creamos controlador
-		ControladorUsuario cu = new ControladorUsuario();
-
-//		Salta un nullpointer exception cuando matcheacon algun usuario ¿Explicacion?
 
 		try {
 //			Busqueda
