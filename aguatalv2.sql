@@ -1,4 +1,4 @@
-drop database aguatalv2;
+drop database if exists aguatalv2;
 create database if not exists aguatalv2;
 
 use aguatalv2;
@@ -16,18 +16,18 @@ create table if not exists usuario(
     primary key (codUsuario)
 );
 set FOREIGN_KEY_CHECKS=0;
- insert into usuario values (null,'moreno27','moreno27','Alejandro','Moreno Martin','privado@gmail.com','mi casa'),(null,'vico','1234','Vico','Super Star','vico@apruebame.com','Mar Alboran'),(null,'jonivasilon','elmitico123','Joni','Chacon Mena','chaconi@gmail.com','su casa');
+ insert into usuario values (null,'moreno27','moreno27','Alejandro','Moreno Martin','privado@gmail.com','mi casa'),(null,'vico','1234','Vico','Super Star','vico@apruebame.com','Mar Alboran'),(null,'cathsm25','1234','Catherine','Slater Mena','picona@gmail.com','su casa');
 
 
 
 create table if not exists dispensadora(
 	codDispensadora int auto_increment,
-    tamanio enum ('grande','pequenia','mediana'),
+    tamanio enum ('grande','mediana'),
     
     primary key (codDispensadora)
 );
 set FOREIGN_KEY_CHECKS=0;
- insert into dispensadora values (null,'pequenia'),(null,'mediana'),(null,'grande');
+ insert into dispensadora values (null,'mediana'),(null,'mediana'),(null,'grande');
 
 
 
@@ -42,7 +42,7 @@ create table if not exists suscripcion(
 		on update cascade on delete cascade
 );
 set FOREIGN_KEY_CHECKS=0;
- insert into suscripcion values (null,null,8.99),(null,null,5.99),(null,null,6.99);
+ insert into suscripcion values (null,1,8.99),(null,2,5.99),(null,3,6.99);
 
 
 create table if not exists pedido(
