@@ -234,27 +234,29 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 
 
 		// PREGUNTAR
-		if (!(campUser.equals(null))) {
+		if (!(campUser.getText().equals(""))) {
 			sesionUsuario.setUsuario(campUser.getText());
 		}
 
-		if (!(passwordField.equals(null) || passwordField.equals(""))) {
+		if (!(new String(passwordField.getPassword()).equals(""))) {
 			sesionUsuario.setPass(new String(passwordField.getPassword()));// String construido a partir de un char
 		}
 
-		if (!(campNombre.equals(null) || campNombre.equals(""))) {
+		if (!(campNombre.getText().equals(""))) {
 			sesionUsuario.setNombreUsuario(campNombre.getText());
 		}
 
-		if (!(campApellidos.equals(null) || campApellidos.equals(""))) {
+		if (!(campApellidos.getText().equals(""))) {
 			sesionUsuario.setApellidosUsuario(campApellidos.getText());
 		}
 
-		if (!(campDireccion.equals(null) || campDireccion.equals(""))) {
+		if (!(campDireccion.getText().equals(""))) {
 			sesionUsuario.setDireccion(campDireccion.getText());
 		}
 
-		if (!(campEmail.equals(null) || campEmail.equals(""))) {
+		if (campEmail.getText().equals("")) {
+			System.out.println("entra en email");
+		} else {
 			sesionUsuario.setEmail(campEmail.getText());
 		}
 
@@ -312,7 +314,7 @@ public class ActualizarUsuario extends JFrame implements ActionListener {
 //		Creamos controlador
 		ControladorUsuario cu = new ControladorUsuario();
 
-//		Salta un nullpointer exception cuando matcheacon algun usuario ¿Explicacion?
+//		Salta un nullpointer exception cuando matcheacon algun usuario ï¿½Explicacion?
 
 		try {
 //			Busqueda
